@@ -1,7 +1,7 @@
 {
-  "name": "js-webpack-template",
+  "name": "battleship-game",
   "version": "1.0.0",
-  "description": "Pre configured template with webpack",
+  "description": "Interactive Battleship game",
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --open-app-name 'google-chrome' --config webpack.dev.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Arthwr/js-webpack-template.git"
+    "url": "git+https://github.com/Arthwr/battleship-game.git"
   },
   "author": "https://github.com/arthwr",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Arthwr/js-webpack-template/issues"
+    "url": "https://github.com/Arthwr/battleship-game/issues"
   },
-  "homepage": "https://github.com/Arthwr/js-webpack-template#readme",
+  "homepage": "https://github.com/Arthwr/battleship-game#readme",
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
