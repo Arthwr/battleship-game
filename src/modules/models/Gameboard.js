@@ -9,4 +9,12 @@ export default class Gameboard {
       this.grid[x - 1][y - 1] = ship;
     });
   }
+
+  receiveAttack(coordinates) {
+    const [x, y] = coordinates;
+    const targetCell = this.grid[x - 1][y - 1];
+
+    if (targetCell === 1) return false;
+    targetCell !== null ? targetCell.hit() : (this.grid[x - 1][y - 1] = 1);
+  }
 }

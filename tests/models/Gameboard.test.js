@@ -1,4 +1,4 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, test, jest, beforeEach } from "@jest/globals";
 import Gameboard from "../../src/modules/models/Gameboard";
 import Ship from "../../src/modules/models/Ship";
 
@@ -37,5 +37,38 @@ describe("Gameboard Model", () => {
     expect(board.grid[9][0]).toBe(newShip);
     expect(board.grid[9][1]).toBe(newShip);
     expect(board.grid[9][2]).toBe(newShip);
+  });
+
+  describe("Correctly execute receiveAttack function", () => {
+    const board = new Gameboard(10, 10);
+    const newShip = new Ship(2);
+    const coordinates = [
+      [6, 1],
+      [6, 2],
+    ];
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+
+    test("receives hit on a ship", () => {
+      const hitSpy = jest.spyOn(newShip, "hit");
+
+      board.place(newShip, coordinates);
+      board.receiveAttack([6, 1]);
+
+      expect(hitSpy).toHaveBeenCalled();
+    });
+
+    test("registers miss and records it", () => {
+      const hitSpy = jest.spyOn(newShip, "hit");
+
+      board.place(newShip, coordinates);
+      board.receiveAttack([4, 4]);
+      
+      expect(hitSpy).not.toHaveBeenCalled();
+      expect(board.grid[3][3]).toBe(1);
+    });
   });
 });
