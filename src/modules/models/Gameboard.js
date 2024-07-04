@@ -20,7 +20,13 @@ export default class Gameboard {
     const targetCell = this.grid[x - 1][y - 1];
 
     if (targetCell === 1) return false;
-    targetCell !== null ? targetCell.hit() : (this.grid[x - 1][y - 1] = 1);
+    if (targetCell === null) {
+      this.grid[x - 1][y - 1] = 1;  // Record missed attack
+    } else {
+      targetCell.hit(); 
+    }
+
+    return true;
   }
 
   isClear() {
