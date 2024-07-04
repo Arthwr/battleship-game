@@ -51,7 +51,6 @@ describe("Gameboard Model", () => {
       jest.clearAllMocks();
     });
 
-
     test("receives hit on a ship", () => {
       const hitSpy = jest.spyOn(newShip, "hit");
 
@@ -66,9 +65,55 @@ describe("Gameboard Model", () => {
 
       board.place(newShip, coordinates);
       board.receiveAttack([4, 4]);
-      
+
       expect(hitSpy).not.toHaveBeenCalled();
       expect(board.grid[3][3]).toBe(1);
+    });
+  });
+
+  describe("Correctly report if all or not ships on gameboard sunk", () => {
+    test("all ships are sunk", () => {
+      const board = new Gameboard(10, 10);
+
+      const firstShip = new Ship(1);
+      const secondShip = new Ship(3);
+
+      const firstShipCoords = [1, 1];
+      const secondShipCoords = [
+        [5, 4],
+        [5, 5],
+        [5, 6],
+      ];
+
+      board.place(firstShip, firstShipCoords);
+      board.place(secondShip, secondShipCoords);
+      board.receiveAttack(firstShipCoords);
+      secondShipCoords.forEach((cell) => {
+        board.receiveAttack(cell);
+      });
+
+      expect(board.isClear()).toBe(true);
+    });
+
+    test("there are still ships on gameboard", () => {
+      const board = new Gameboard(10, 10);
+
+      const firstShip = new Ship(1);
+      const secondShip = new Ship(2);
+
+      const firstShipCoords = [2, 2];
+      const secondShipCoords = [
+        [7, 4],
+        [7, 3],
+      ];
+
+      board.place(firstShip, firstShipCoords);
+      board.place(secondShip, secondShipCoords);
+      board.receiveAttack(firstShipCoords);
+      board.receiveAttack(secondShipCoords[0]);
+      board.receiveAttack([1, 1]);
+
+      expect(board.isClear()).toBe(false);
     });
   });
 });

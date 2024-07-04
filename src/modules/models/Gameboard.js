@@ -22,4 +22,15 @@ export default class Gameboard {
     if (targetCell === 1) return false;
     targetCell !== null ? targetCell.hit() : (this.grid[x - 1][y - 1] = 1);
   }
+
+  isClear() {
+    return this.grid.every((row) =>
+      row.every(
+        (cell) =>
+          cell === null ||
+          cell === 1 ||
+          (typeof cell === "object" && cell.isSunk())
+      )
+    );
+  }
 }
