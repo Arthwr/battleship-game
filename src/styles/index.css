@@ -1,1 +1,24 @@
 @import url("normalize.css");
+
+:root {
+  font-family: Avenir, Montserrat, Corbel, "URW Gothic", source-sans-pro,
+    sans-serif;
+  font-weight: normal;
+}
+/* Default styles reset */
+h1 {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}
+
+/* Main */
+.title {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+section {
+  max-width: 1440px;
+  margin: 0 auto;
+}
