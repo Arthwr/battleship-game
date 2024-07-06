@@ -1,6 +1,8 @@
 @import url("normalize.css");
 
 :root {
+  --grid-border: #109EE5;
+
   font-family: Avenir, Montserrat, Corbel, "URW Gothic", source-sans-pro,
     sans-serif;
   font-weight: normal;
@@ -21,4 +23,36 @@ h1 {
 section {
   max-width: 1440px;
   margin: 0 auto;
+}
+
+.wrapper {
+  margin-top: 5rem;
+}
+
+/* Grid */
+#game-container {
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
+}
+
+.grid {
+  border: solid var(--grid-border) 1px;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 2rem;
+  height: 2rem;
+}
+
+.cell:not(:last-child) {
+  border-right: solid var(--grid-border) 1px;
+}
+
+.row:not(:last-child) .cell {
+  border-bottom: solid var(--grid-border) 1px;
 }
