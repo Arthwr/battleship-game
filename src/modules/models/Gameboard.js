@@ -6,6 +6,13 @@ export default class Gameboard {
     this.grid = new Array(row).fill(Array(column).fill(null));
   }
 
+  getDimensions() {
+    const rowCount = this.grid.length;
+    const columnCount = this.grid[0].length;
+    
+    return { rowCount, columnCount };
+  }
+
   place(ship, coordinates) {
     // Check if coordinates are single pair
     if (!Array.isArray(coordinates[0])) {
@@ -24,9 +31,9 @@ export default class Gameboard {
 
     if (targetCell === 1) return false;
     if (targetCell === null) {
-      this.grid[x - 1][y - 1] = 1;  // Record missed attack
+      this.grid[x - 1][y - 1] = 1; // Record missed attack
     } else {
-      targetCell.hit(); 
+      targetCell.hit();
     }
 
     return true;
