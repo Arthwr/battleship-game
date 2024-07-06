@@ -3,7 +3,7 @@
 :root {
   --grid-border: #109ee5;
 
-  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+  font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   font-weight: normal;
 }
 /* Default styles reset */
@@ -29,7 +29,6 @@ section {
 }
 
 /* Grid */
-
 #game-container {
   display: flex;
   justify-content: center;
@@ -40,12 +39,15 @@ section {
   border: solid var(--grid-border) 1px;
 }
 
-.grid-wrap {
+.grid-wrap,
+.row,
+.label-row {
   display: flex;
 }
 
-.row {
-  display: flex;
+.label-row > *,
+.label-column > * {
+  flex: 1;
 }
 
 .game-cell,
@@ -54,21 +56,9 @@ section {
   height: 2rem;
 }
 
-.label-row {
-  display: flex;
-}
-
-.label-row > * {
-  flex: 1;
-}
-
 .label-column {
   display: flex;
   flex-direction: column;
-}
-
-.label-column > * {
-  flex: 1;
 }
 
 .label-cell {
