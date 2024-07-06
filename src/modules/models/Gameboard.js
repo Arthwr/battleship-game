@@ -1,5 +1,8 @@
 export default class Gameboard {
-  constructor(row, column) {
+  static ROW = 10;
+  static COLUMN = 10;
+
+  constructor(row = Gameboard.ROW, column = Gameboard.COLUMN) {
     this.grid = new Array(row).fill(Array(column).fill(null));
   }
 
