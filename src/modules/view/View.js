@@ -3,11 +3,13 @@ import grid from "../../components/grid";
 export default class View {
   constructor() {
     this.gameContainer = document.getElementById("game-container");
+    this.gameGrid = [];
   }
 
   renderGrid(players) {
     const combinedGridHTML = grid(players);
     this.gameContainer.innerHTML = combinedGridHTML;
+    this.gameGrid = document.querySelectorAll(".grid");
   }
 
   renderSingleShip(row, col, boardId) {
@@ -29,6 +31,26 @@ export default class View {
           }
         });
       });
+    }
+  }
+
+  updateCell(playerName, coordinates, status) {
+    const [row, col] = coordinates;
+    const cellSelector = `.row[data-row="${row}"] .game-cell[data-col="${col}"]`;
+    const gameBoard = document.getElementById(playerName);
+    const cell = gameBoard.querySelector(cellSelector);
+
+    switch (status) {
+      case "missed":
+        cell.classList.add("missed");
+        break;
+      case "hit":
+        cell.classList.add("hit");
+        break;
+      case "already_attacked":
+        return;
+      default:
+        console.log(`Unknown status ${status}`);
     }
   }
 
