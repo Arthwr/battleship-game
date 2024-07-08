@@ -70,14 +70,14 @@ describe("Gameboard Model", () => {
       expect(board.grid[3][3]).toBe(1);
     });
 
-    test("return false if target cell was a hit miss before", () => {
+    test("return already_attacked msg if target cell was a hit miss before", () => {
       const hitSpy = jest.spyOn(newShip, "hit");
 
       board.place(newShip, coordinates);
       board.receiveAttack([4, 4]);
 
       expect(hitSpy).not.toHaveBeenCalled();
-      expect(board.receiveAttack([4, 4])).toBe(false);
+      expect(board.receiveAttack([4, 4])).toBe("already_attacked");
     });
   });
 

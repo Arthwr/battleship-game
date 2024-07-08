@@ -29,14 +29,14 @@ export default class Gameboard {
     const [x, y] = coordinates;
     const targetCell = this.grid[x - 1][y - 1];
 
-    if (targetCell === 1) return false;
+    if (targetCell === 1) return "already_attacked";
     if (targetCell === null) {
-      this.grid[x - 1][y - 1] = 1; // Record missed attack
+      this.grid[x - 1][y - 1] = 1;
+      return "missed";
     } else {
       targetCell.hit();
+      return "hit";
     }
-
-    return true;
   }
 
   isClear() {
