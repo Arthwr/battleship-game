@@ -36,6 +36,11 @@ section {
   gap: 10rem;
 }
 
+#User .game-cell,
+#Computer .game-cell {
+  cursor: pointer;
+}
+
 .grid {
   border: solid var(--grid-border) 1px;
 }
@@ -79,4 +84,29 @@ section {
 /* Ship */
 .ship {
   background-color: var(--ship);
+}
+
+/* Attack status */
+.game-cell {
+  position: relative;
+}
+
+.game-cell.hit::before {
+  content: "X";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: crimson;
+}
+
+.game-cell.missed::before {
+  content: "O";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: dimgrey;
 }
