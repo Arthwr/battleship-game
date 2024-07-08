@@ -3,13 +3,13 @@ export default class Gameboard {
   static COLUMN = 10;
 
   constructor(row = Gameboard.ROW, column = Gameboard.COLUMN) {
-    this.grid = new Array(row).fill(Array(column).fill(null));
+    this.grid = Array.from({ length: row }, () => new Array(column).fill(null));
   }
 
   getDimensions() {
     const rowCount = this.grid.length;
     const columnCount = this.grid[0].length;
-    
+
     return { rowCount, columnCount };
   }
 
