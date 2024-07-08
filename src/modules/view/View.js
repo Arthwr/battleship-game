@@ -47,8 +47,6 @@ export default class View {
       case "hit":
         cell.classList.add("hit");
         break;
-      case "already_attacked":
-        return;
       default:
         console.log(`Unknown status ${status}`);
     }
