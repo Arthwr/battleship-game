@@ -2,6 +2,7 @@
 
 :root {
   --grid-border: #109ee5;
+  --ship: #83a0a0;
 
   font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   font-weight: normal;
@@ -73,4 +74,9 @@ section {
 
 .row:not(:last-child) .game-cell {
   border-bottom: solid var(--grid-border) 1px;
+}
+
+/* Ship */
+.ship {
+  background-color: var(--ship);
 }
