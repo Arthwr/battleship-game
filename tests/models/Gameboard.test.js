@@ -23,6 +23,10 @@ describe("Gameboard Model", () => {
         });
       });
     });
+
+    test("getDimensions method should return correct number of rows and columns", () => {
+      expect(board.getDimensions()).toEqual({ rowCount: 4, columnCount: 4 });
+    });
   });
 
   test("Places correctly ship at gameboard", () => {
