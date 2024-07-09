@@ -45,22 +45,19 @@ export default class GameController {
     } while (this.computerAttacks.has(`${attackOnRow}, ${attackOnCol}`));
 
     this.computerAttacks.add(`${attackOnRow}, ${attackOnCol}`);
-    console.log(this.computerAttacks)
     this.handleBoardClick(this.players[0], [attackOnRow, attackOnCol]);
   }
 
   attachListeners() {
-    const gameGrids = this.view.gameGrid;
-    gameGrids.forEach((grid, index) => {
-      grid.addEventListener("click", (event) => {
-        const cell = event.target.closest(".game-cell");
-        if (cell) {
-          const player = this.players[index];
-          const row = cell.dataset.row;
-          const col = cell.dataset.col;
-          this.handleBoardClick(player, [row, col]);
-        }
-      });
+    const computerGrid = this.view.gameGrid[1];
+    computerGrid.addEventListener("click", (event) => {
+      const cell = event.target.closest(".game-cell");
+      if (cell) {
+        const player = this.players[1];
+        const row = cell.dataset.row;
+        const col = cell.dataset.col;
+        this.handleBoardClick(player, [row, col]);
+      }
     });
   }
 
