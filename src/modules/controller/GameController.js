@@ -1,9 +1,10 @@
 export default class GameController {
   constructor(players, view) {
     this.players = players;
-    this.currentPlayer = this.players[0];
     this.view = view;
-    this.computerAttacks = new Set();
+    this.currentPlayer =
+      this.players.find((player) => player.name !== "computer") ||
+      this.players[0];
   }
 
   switchPlayer() {
@@ -13,21 +14,26 @@ export default class GameController {
         : this.players[0];
   }
 
-  handleBoardClick(player, coordinates) {
-    if (this.currentPlayer !== player) {
-      const gameBoard = player.gameBoard;
-      const attackStatus = gameBoard.receiveAttack(coordinates);
-
-      if (attackStatus === "already_attacked") return;
-
-      this.view.updateCell(player.name, coordinates, attackStatus);
-      this.switchPlayer();
-      this.triggerComputerTurn();
-    }
+  getOpponent() {
+    return this.players.find((player) => player !== this.currentPlayer);
   }
 
-  triggerComputerTurn() {
-    if (this.currentPlayer.name === "Computer") {
+  processMove(coordinates) {
+    const opponent = this.getOpponent();
+    const gameBoard = opponent.gameBoard;
+    const attackStatus = gameBoard.receiveAttack(coordinates);
+
+    if (attackStatus === "already_attacked") return;
+
+    this.view.updateCell(opponent.name, coordinates, attackStatus);
+
+    this.endTurn();
+  }
+
+  endTurn() {
+    this.switchPlayer();
+
+    if (this.currentPlayer.name === "computer") {
       setTimeout(() => {
         this.computerTurn();
       }, 1000);
@@ -35,29 +41,24 @@ export default class GameController {
   }
 
   computerTurn() {
-    let attackOnRow, attackOnCol;
-    const userPlayer = this.players[0];
-    const { rowCount, columnCount } = userPlayer.gameBoard.getDimensions();
-
-    do {
-      attackOnRow = Math.floor(Math.random() * (rowCount - 1)) + 1;
-      attackOnCol = Math.floor(Math.random() * (columnCount - 1)) + 1;
-    } while (this.computerAttacks.has(`${attackOnRow}, ${attackOnCol}`));
-
-    this.computerAttacks.add(`${attackOnRow}, ${attackOnCol}`);
-    this.handleBoardClick(this.players[0], [attackOnRow, attackOnCol]);
+    const opponentGameBoard = this.getOpponent().gameBoard;
+    const move = this.currentPlayer.chooseMove(opponentGameBoard);
+    if (move) {
+      this.processMove(move);
+    }
   }
 
   attachListeners() {
-    const computerGrid = this.view.gameGrid[1];
-    computerGrid.addEventListener("click", (event) => {
-      const cell = event.target.closest(".game-cell");
-      if (cell) {
-        const player = this.players[1];
-        const row = cell.dataset.row;
-        const col = cell.dataset.col;
-        this.handleBoardClick(player, [row, col]);
-      }
+    const playableGrids = this.view.gameGrid;
+    playableGrids.forEach((grid) => {
+      grid.addEventListener("click", (event) => {
+        const cell = event.target.closest(".game-cell");
+        if (cell) {
+          const row = cell.dataset.row;
+          const col = cell.dataset.col;
+          this.processMove([row, col]);
+        }
+      });
     });
   }
 
