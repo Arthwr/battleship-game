@@ -36,11 +36,6 @@ section {
   gap: 10rem;
 }
 
-#User .game-cell,
-#Computer .game-cell {
-  cursor: pointer;
-}
-
 .grid {
   border: solid var(--grid-border) 1px;
 }
@@ -54,6 +49,10 @@ section {
 .label-row > *,
 .label-column > * {
   flex: 1;
+}
+
+.game-cell {
+  cursor: pointer;
 }
 
 .game-cell,
