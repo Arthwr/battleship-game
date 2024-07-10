@@ -1,4 +1,11 @@
-import { describe, expect, test, jest, beforeEach } from "@jest/globals";
+import {
+  describe,
+  expect,
+  test,
+  jest,
+  beforeEach,
+  afterEach,
+} from "@jest/globals";
 import GameController from "../../src/modules/controller/GameController";
 
 describe("GameController class", () => {
@@ -10,8 +17,26 @@ describe("GameController class", () => {
     jest.clearAllMocks();
 
     players = [
-      {name: "User", gameBoard: {receiveAttack: jest.fn()}},
-      {name: "Computer", gameBoard: {receiveAttack: jest.fn()}}
+      {
+        name: "User",
+        gameBoard: {
+          receiveAttack: jest.fn(),
+          getDimensions: jest.fn().mockReturnValue({
+            rowCount: 10,
+            columnCount: 10,
+          }),
+        },
+      },
+      {
+        name: "Computer",
+        gameBoard: {
+          receiveAttack: jest.fn(),
+          getDimensions: jest.fn().mockReturnValue({
+            rowCount: 10,
+            columnCount: 10,
+          }),
+        },
+      },
     ];
 
     mockView = {
@@ -19,6 +44,12 @@ describe("GameController class", () => {
       updateView: jest.fn(),
       gameGrid: [],
     };
+
+    controller = new GameController(players, mockView);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
 
     controller = new GameController(players, mockView);
   });
