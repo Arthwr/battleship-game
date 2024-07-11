@@ -18,7 +18,13 @@ export default class GameController {
     return this.players.find((player) => player !== this.currentPlayer);
   }
 
-  processMove(coordinates) {
+  processMove(coordinates, event = null) {
+    if (event) {
+      // Check if the humanPlayer is trying to attack their own board
+      const clickedGrid = event.target.closest(".grid");
+      if (clickedGrid.id === this.currentPlayer.name) return;
+    }
+
     const opponent = this.getOpponent();
     const gameBoard = opponent.gameBoard;
     const attackStatus = gameBoard.receiveAttack(coordinates);
@@ -48,15 +54,16 @@ export default class GameController {
     }
   }
 
-  attachListeners() {
-    const playableGrids = this.view.gameGrid;
-    playableGrids.forEach((grid) => {
+  attachGameBoardListeners() {
+    this.view.gameGrid.forEach((grid) => {
       grid.addEventListener("click", (event) => {
+        if (this.currentPlayer.name === "computer") return;
+
         const cell = event.target.closest(".game-cell");
         if (cell) {
           const row = cell.dataset.row;
           const col = cell.dataset.col;
-          this.processMove([row, col]);
+          this.processMove([row, col], event);
         }
       });
     });
@@ -64,6 +71,6 @@ export default class GameController {
 
   setupNewGame() {
     this.view.updateView(this.players);
-    this.attachListeners();
+    this.attachGameBoardListeners();
   }
 }
