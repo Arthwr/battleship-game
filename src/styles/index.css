@@ -21,7 +21,7 @@ h1 {
 }
 
 section {
-  max-width: 1440px;
+  max-width: 1024px;
   margin: 0 auto;
 }
 
@@ -32,7 +32,7 @@ section {
 /* Grid */
 #game-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   gap: 10rem;
 }
 
