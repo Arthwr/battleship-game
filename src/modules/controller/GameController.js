@@ -5,6 +5,7 @@ export default class GameController {
     this.currentPlayer =
       this.players.find((player) => player.name !== "computer") ||
       this.players[0];
+    this.handleGridClickBound = this.handleGridClick.bind(this);
   }
 
   switchPlayer() {
@@ -32,11 +33,19 @@ export default class GameController {
     if (attackStatus === "already_attacked") return;
 
     this.view.updateCell(opponent.name, coordinates, attackStatus);
-
     this.endTurn();
   }
 
+  getWinner() {
+    if (this.players[0].gameBoard.isClear()) return this.players[1].name;
+    if (this.players[1].gameBoard.isClear()) return this.players[0].name;
+    return null;
+  }
+
   endTurn() {
+    const winner = this.getWinner();
+    if (winner) return this.endGame(winner);
+
     this.switchPlayer();
 
     if (this.currentPlayer.name === "computer") {
@@ -54,19 +63,28 @@ export default class GameController {
     }
   }
 
+  handleGridClick(event) {
+    if (this.currentPlayer.name === "computer") return;
+
+    const cell = event.target.closest(".game-cell");
+    if (cell) {
+      const row = cell.dataset.row;
+      const col = cell.dataset.col;
+      this.processMove([row, col], event);
+    }
+  }
+
   attachGameBoardListeners() {
     this.view.gameGrid.forEach((grid) => {
-      grid.addEventListener("click", (event) => {
-        if (this.currentPlayer.name === "computer") return;
-
-        const cell = event.target.closest(".game-cell");
-        if (cell) {
-          const row = cell.dataset.row;
-          const col = cell.dataset.col;
-          this.processMove([row, col], event);
-        }
-      });
+      grid.addEventListener("click", this.handleGridClickBound);
     });
+  }
+
+  endGame(winner) {
+    this.view.gameGrid.forEach((grid) => {
+      grid.removeEventListener("click", this.handleGridClickBound);
+    });
+    console.log(`Game has ended! ${winner} won!`);
   }
 
   setupNewGame() {
