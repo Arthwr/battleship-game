@@ -5,7 +5,6 @@ export default class GameController {
     this.currentPlayer =
       this.players.find((player) => player.name !== "computer") ||
       this.players[0];
-    this.handleGridClickBound = this.handleGridClick.bind(this);
   }
 
   switchPlayer() {
@@ -63,7 +62,7 @@ export default class GameController {
     }
   }
 
-  handleGridClick(event) {
+  handleGridClick = (event) => {
     if (this.currentPlayer.name === "computer") return;
 
     const cell = event.target.closest(".game-cell");
@@ -72,17 +71,17 @@ export default class GameController {
       const col = cell.dataset.col;
       this.processMove([row, col], event);
     }
-  }
+  };
 
   attachGameBoardListeners() {
     this.view.gameGrid.forEach((grid) => {
-      grid.addEventListener("click", this.handleGridClickBound);
+      grid.addEventListener("click", this.handleGridClick);
     });
   }
 
   endGame(winner) {
     this.view.gameGrid.forEach((grid) => {
-      grid.removeEventListener("click", this.handleGridClickBound);
+      grid.removeEventListener("click", this.handleGridClick);
     });
     console.log(`Game has ended! ${winner} won!`);
   }
