@@ -32,19 +32,19 @@ players[0].gameBoard.place(new Ship(2), [
 ]);
 
 // Place 2 ships with length 3
-players[0].gameBoard.place(new Ship(2), [
+players[0].gameBoard.place(new Ship(3), [
   [7, 3],
   [7, 4],
   [7, 5],
 ]);
-players[0].gameBoard.place(new Ship(2), [
+players[0].gameBoard.place(new Ship(3), [
   [4, 3],
   [4, 4],
   [4, 5],
 ]);
 
 // Place 1 ships with length 4
-players[0].gameBoard.place(new Ship(2), [
+players[0].gameBoard.place(new Ship(4), [
   [2, 2],
   [2, 3],
   [2, 4],
@@ -73,19 +73,19 @@ players[1].gameBoard.place(new Ship(2), [
 ]);
 
 // Place 2 ships with length 3
-players[1].gameBoard.place(new Ship(2), [
+players[1].gameBoard.place(new Ship(3), [
   [9, 8],
   [9, 7],
   [9, 6],
 ]);
-players[1].gameBoard.place(new Ship(2), [
+players[1].gameBoard.place(new Ship(3), [
   [4, 3],
   [4, 4],
   [4, 5],
 ]);
 
 // Place 1 ships with length 4
-players[1].gameBoard.place(new Ship(2), [
+players[1].gameBoard.place(new Ship(4), [
   [2, 2],
   [2, 3],
   [2, 4],
