@@ -46,6 +46,7 @@ describe("GameController class", () => {
       updateCell: jest.fn(),
       updateView: jest.fn(),
       gameGrid: [],
+      updatePlayerLabel: jest.fn(),
     };
 
     controller = new GameController(players, mockView);
@@ -159,9 +160,9 @@ describe("GameController class", () => {
 
     controller.currentPlayer = players[0];
 
-    controller.endTurn(); 
+    controller.endTurn();
     expect(switchPlayerSpy).toHaveBeenCalled();
-    
+
     jest.advanceTimersByTime(1000);
     expect(computerTurnSpy).toHaveBeenCalled();
 
