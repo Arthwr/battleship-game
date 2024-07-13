@@ -52,6 +52,18 @@ export default class View {
     }
   }
 
+  updatePlayerLabel(currentPlayer) {
+    const previousActiveLabel = document.querySelector(".player-label.active");
+    if (previousActiveLabel) {
+      previousActiveLabel.classList.remove("active");
+    }
+
+    const currentPlayerLabel = document.querySelector(`.player-label[data-player=${currentPlayer.name}]`);
+    if (currentPlayerLabel) {
+      currentPlayerLabel.classList.add("active")
+    }
+  }
+
   updateView(players) {
     this.gameContainer.innerHTML = "";
     this.renderGrid(players);

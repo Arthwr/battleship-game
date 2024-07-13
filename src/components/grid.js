@@ -17,6 +17,9 @@ export default function grid(players) {
 
     let playerGridHTML = `
       <div class="gameboard">
+      <div class="player-label" data-player="${player.name}">${
+        player.name.slice(0, 1).toUpperCase() + player.name.slice(1)
+      }</div>
         <div class="label-row">
           <div class="label-cell"></div>
         ${xAxisLabelHTML}

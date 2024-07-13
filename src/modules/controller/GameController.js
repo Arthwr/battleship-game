@@ -12,6 +12,7 @@ export default class GameController {
       this.currentPlayer === this.players[0]
         ? this.players[1]
         : this.players[0];
+    this.view.updatePlayerLabel(this.currentPlayer);
   }
 
   getOpponent() {
@@ -88,6 +89,7 @@ export default class GameController {
 
   setupNewGame() {
     this.view.updateView(this.players);
+    this.view.updatePlayerLabel(this.currentPlayer);
     this.attachGameBoardListeners();
   }
 }
