@@ -3,6 +3,8 @@
 :root {
   --grid-border: #109ee5;
   --ship: #83a0a0;
+  --highlight: #6495ed;
+  --label: #deb887;
 
   font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   font-weight: normal;
@@ -16,6 +18,7 @@ h1 {
 
 /* Main */
 .title {
+  font-size: 2.5rem;
   margin-top: 2rem;
   text-align: center;
   letter-spacing: 2px;
@@ -27,6 +30,11 @@ section {
 }
 
 .wrapper {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-top: 5rem;
 }
 
@@ -54,7 +62,7 @@ section {
 }
 
 .active {
-  background-color: burlywood;
+  background-color: var(--label);
 }
 
 .grid {
@@ -129,4 +137,13 @@ section {
   transform: translate(-50%, -50%);
   font-size: 2rem;
   color: dimgrey;
+}
+
+/* Other */
+.result {
+  font-size: 1.5rem;
+}
+
+.result > b {
+  color: var(--highlight);
 }

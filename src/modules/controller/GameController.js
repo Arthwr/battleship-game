@@ -84,7 +84,7 @@ export default class GameController {
     this.view.gameGrid.forEach((grid) => {
       grid.removeEventListener("click", this.handleGridClick);
     });
-    console.log(`Game has ended! ${winner} won!`);
+    this.view.renderResult(winner);
   }
 
   setupNewGame() {

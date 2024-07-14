@@ -1,7 +1,9 @@
 import grid from "../../components/grid";
+import resultElement from "../../components/resultElement";
 
 export default class View {
   constructor() {
+    this.gameWrapper = document.querySelector(".wrapper");
     this.gameContainer = document.getElementById("game-container");
     this.gameGrid = [];
   }
@@ -10,6 +12,11 @@ export default class View {
     const combinedGridHTML = grid(players);
     this.gameContainer.innerHTML = combinedGridHTML;
     this.gameGrid = document.querySelectorAll(".grid");
+  }
+
+  renderResult(winner) {
+    const winnerMsg = resultElement(winner);
+    this.gameWrapper.prepend(winnerMsg);
   }
 
   renderSingleShip(row, col, boardId) {
@@ -58,9 +65,11 @@ export default class View {
       previousActiveLabel.classList.remove("active");
     }
 
-    const currentPlayerLabel = document.querySelector(`.player-label[data-player=${currentPlayer.name}]`);
+    const currentPlayerLabel = document.querySelector(
+      `.player-label[data-player=${currentPlayer.name}]`
+    );
     if (currentPlayerLabel) {
-      currentPlayerLabel.classList.add("active")
+      currentPlayerLabel.classList.add("active");
     }
   }
 
