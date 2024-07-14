@@ -24,7 +24,7 @@ export default class View {
     if (gameBoard !== null) {
       gameBoard.forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
-          if (cell && typeof cell === "object") {
+          if (cell.ship && typeof cell.ship === "object") {
             const rowToRender = rowIndex + 1;
             const colToRender = colIndex + 1;
             this.renderSingleShip(rowToRender, colToRender, player.name);
