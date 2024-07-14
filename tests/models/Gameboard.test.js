@@ -16,10 +16,10 @@ describe("Gameboard Model", () => {
       });
     });
 
-    test("each element in the rows should be initially null", () => {
+    test("each ship object element in the rows should be initially null", () => {
       board.grid.forEach((row) => {
         row.forEach((cell) => {
-          expect(cell).toBeNull();
+          expect(cell.ship).toBeNull();
         });
       });
     });
@@ -38,9 +38,9 @@ describe("Gameboard Model", () => {
       [10, 3],
     ];
     board.place(newShip, coordinates);
-    expect(board.grid[9][0]).toBe(newShip);
-    expect(board.grid[9][1]).toBe(newShip);
-    expect(board.grid[9][2]).toBe(newShip);
+    expect(board.grid[9][0].ship).toBe(newShip);
+    expect(board.grid[9][1].ship).toBe(newShip);
+    expect(board.grid[9][2].ship).toBe(newShip);
   });
 
   describe("Correctly execute receiveAttack function", () => {
