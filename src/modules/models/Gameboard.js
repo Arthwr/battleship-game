@@ -3,7 +3,9 @@ export default class Gameboard {
   static COLUMN = 10;
 
   constructor(row = Gameboard.ROW, column = Gameboard.COLUMN) {
-    this.grid = Array.from({ length: row }, () => new Array(column).fill(null));
+    this.grid = Array.from({ length: row }, () =>
+      new Array(column).fill(null).map(() => ({ ship: null, attacked: false }))
+    );
   }
 
   getDimensions() {
@@ -17,10 +19,10 @@ export default class Gameboard {
     // Check if coordinates are single pair
     if (!Array.isArray(coordinates[0])) {
       const [x, y] = coordinates;
-      this.grid[x - 1][y - 1] = ship;
+      this.grid[x - 1][y - 1] = { ship, attacked: false };
     } else {
       coordinates.forEach(([x, y]) => {
-        this.grid[x - 1][y - 1] = ship;
+        this.grid[x - 1][y - 1] = { ship, attacked: false };
       });
     }
   }
@@ -29,12 +31,13 @@ export default class Gameboard {
     const [x, y] = coordinates;
     const targetCell = this.grid[x - 1][y - 1];
 
-    if (targetCell === 1) return "already_attacked";
-    if (targetCell === null) {
+    if (targetCell.attacked || targetCell === 1) return "already_attacked";
+    if (targetCell.ship === null) {
       this.grid[x - 1][y - 1] = 1;
       return "missed";
     } else {
-      targetCell.hit();
+      targetCell.ship.hit();
+      targetCell.attacked = true;
       return "hit";
     }
   }
@@ -43,9 +46,9 @@ export default class Gameboard {
     return this.grid.every((row) =>
       row.every(
         (cell) =>
-          cell === null ||
           cell === 1 ||
-          (typeof cell === "object" && cell.isSunk())
+          cell.ship === null ||
+          (cell.attacked && cell.ship.isSunk())
       )
     );
   }
