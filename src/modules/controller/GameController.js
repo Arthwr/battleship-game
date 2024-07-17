@@ -33,7 +33,7 @@ export default class GameController {
     if (attackStatus === "already_attacked") return;
 
     this.view.updateCell(opponent.name, coordinates, attackStatus);
-    this.endTurn();
+    this.endTurn(attackStatus);
   }
 
   getWinner() {
@@ -42,11 +42,12 @@ export default class GameController {
     return null;
   }
 
-  endTurn() {
+  endTurn(attackStatus) {
     const winner = this.getWinner();
     if (winner) return this.endGame(winner);
 
-    this.switchPlayer();
+    // Extra turn for current player for successful hit on a ship
+    if (attackStatus !== "hit") this.switchPlayer();
 
     if (this.currentPlayer.name === "computer") {
       setTimeout(() => {
