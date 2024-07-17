@@ -166,6 +166,6 @@ describe("GameController class", () => {
     jest.advanceTimersByTime(1000);
     expect(computerTurnSpy).toHaveBeenCalled();
 
-    jest.useRealTimers();
+    jest.runAllTimers();
   });
 });
