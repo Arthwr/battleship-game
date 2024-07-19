@@ -2,7 +2,7 @@
 
 :root {
   --grid-border: #109ee5;
-  --ship: #83a0a0;
+  --ship: rgba(0, 4, 255, 0.247);
   --highlight: #6495ed;
   --label: #deb887;
 
@@ -109,16 +109,17 @@ section {
   border-bottom: solid var(--grid-border) 1px;
 }
 
+.game-cell {
+  box-sizing: border-box;
+  position: relative;
+}
+
 /* Ship */
-.ship {
+.game-cell.ship {
   background-color: var(--ship);
 }
 
 /* Attack status */
-.game-cell {
-  position: relative;
-}
-
 .game-cell.hit::before {
   content: "X";
   position: absolute;
