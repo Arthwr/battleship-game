@@ -1,4 +1,5 @@
 import grid from "../../components/grid";
+import introElement from "../../components/introElement";
 import resultElement from "../../components/resultElement";
 
 export default class View {
@@ -6,6 +7,12 @@ export default class View {
     this.gameWrapper = document.querySelector(".wrapper");
     this.gameContainer = document.getElementById("game-container");
     this.gameGrid = [];
+  }
+
+  renderIntro() {
+    this.gameWrapper.innerHTML = "";
+    const menu = introElement();
+    this.gameWrapper.appendChild(menu);
   }
 
   renderGrid(players) {

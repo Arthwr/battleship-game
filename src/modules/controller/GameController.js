@@ -88,6 +88,10 @@ export default class GameController {
     this.view.renderResult(winner);
   }
 
+  initApp() {
+    this.view.renderIntro();
+  }
+
   setupNewGame() {
     this.view.updateView(this.players);
     this.view.updatePlayerLabel(this.currentPlayer);

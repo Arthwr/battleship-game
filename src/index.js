@@ -93,4 +93,5 @@ players[1].gameBoard.place(new Ship(4), [
 ]);
 
 const game = new GameController(players, new View());
-game.setupNewGame();
+game.initApp(); 
+// game.setupNewGame();
