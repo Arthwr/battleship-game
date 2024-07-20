@@ -14,6 +14,7 @@ describe("GameController class", () => {
   let controller;
 
   beforeEach(() => {
+    jest.useFakeTimers();
     jest.clearAllMocks();
 
     players = [
@@ -54,8 +55,7 @@ describe("GameController class", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-
-    controller = new GameController(players, mockView);
+    jest.useRealTimers();
   });
 
   test("first player is always User", () => {
@@ -153,8 +153,6 @@ describe("GameController class", () => {
   });
 
   test("endTurn correctly ends the turn, switch players and initiates computer's turn", () => {
-    jest.useFakeTimers();
-
     const switchPlayerSpy = jest.spyOn(controller, "switchPlayer");
     const computerTurnSpy = jest.spyOn(controller, "computerTurn");
 
@@ -165,7 +163,5 @@ describe("GameController class", () => {
 
     jest.advanceTimersByTime(1000);
     expect(computerTurnSpy).toHaveBeenCalled();
-
-    jest.runAllTimers();
   });
 });
