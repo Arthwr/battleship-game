@@ -88,15 +88,18 @@ export default class GameController {
     this.view.renderResult(winner);
   }
 
+  toggleNameInputState(event) {
+    const isComputer = event.target.value === "computer";
+    const nameInput = event.target.closest(".menu-col").querySelector('input[type="text"]');
+    nameInput.disabled = isComputer;
+    this.view.disableNameLabels(event);
+  }
+
   setupFormListeners(form) {
     const playerTypeSelectors = form.querySelectorAll('select[name$="-type"]');
     playerTypeSelectors.forEach((select) => {
       select.addEventListener("change", (event) => {
-        const isComputer = event.target.value === "computer";
-        const nameInput = event.target
-          .closest(".menu-col")
-          .querySelector('input[type="text"]');
-        nameInput.disabled = isComputer;
+        this.toggleNameInputState(event);
       });
     });
   }
