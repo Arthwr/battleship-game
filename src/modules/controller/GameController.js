@@ -88,8 +88,22 @@ export default class GameController {
     this.view.renderResult(winner);
   }
 
+  setupFormListeners(form) {
+    const playerTypeSelectors = form.querySelectorAll('select[name$="-type"]');
+    playerTypeSelectors.forEach((select) => {
+      select.addEventListener("change", (event) => {
+        const isComputer = event.target.value === "computer";
+        const nameInput = event.target
+          .closest(".menu-col")
+          .querySelector('input[type="text"]');
+        nameInput.disabled = isComputer;
+      });
+    });
+  }
+
   initApp() {
-    this.view.renderIntro();
+    const form = this.view.renderIntro();
+    this.setupFormListeners(form);
   }
 
   setupNewGame() {

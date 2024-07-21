@@ -11,8 +11,9 @@ export default class View {
 
   renderIntro() {
     this.gameWrapper.innerHTML = "";
-    const menu = introElement();
-    this.gameWrapper.appendChild(menu);
+    const { intro, form } = introElement();
+    this.gameWrapper.appendChild(intro);
+    return form;
   }
 
   renderGrid(players) {
