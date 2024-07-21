@@ -28,7 +28,7 @@ export default function introElement() {
                     </select>
                 </div>
                 <div>
-                    <label for="player2-name">Name:</label>
+                    <label for="player2-name" class="disabled-label">Name:</label>
                     <input id="player2-name" name="player2-name" type="text" required disabled></input>
                 </div>
             </div>

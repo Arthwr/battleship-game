@@ -8,6 +8,7 @@
   --bg-main: #eff1f3;
   --text: #2d2d2a;
   --btn: #c8cef9;
+  --disabled: #aaa;
 
   font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   font-weight: normal;
@@ -27,7 +28,7 @@ body {
 
 .top-bar {
   color: white;
-  background-color: #30343F;
+  background-color: #30343f;
 }
 
 .title {
@@ -51,7 +52,7 @@ section {
   margin-top: 5rem;
 }
 
-/* Game menu */
+/* Game form */
 #menu {
   max-width: 740px;
 }
@@ -63,7 +64,7 @@ h2 {
 }
 
 form {
-  display: flex;  
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -112,6 +113,10 @@ form > button {
 
 form > button:active {
   transform: translateY(4px);
+}
+
+.disabled-label {
+  color: var(--disabled);
 }
 
 /* Grid */
