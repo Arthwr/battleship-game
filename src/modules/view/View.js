@@ -9,6 +9,13 @@ export default class View {
     this.gameGrid = [];
   }
 
+  disableNameLabels(event) {
+    const labelInput = event.target
+      .closest(".menu-col")
+      .querySelector('label[for$="-name"');
+    labelInput.classList.toggle("disabled-label");
+  }
+
   renderIntro() {
     this.gameWrapper.innerHTML = "";
     const { intro, form } = introElement();
