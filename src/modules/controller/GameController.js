@@ -140,8 +140,7 @@ export default class GameController {
   }
 
   setupNewGame() {
-    this.view.updateView(this.players);
-    this.view.updatePlayerLabel(this.currentPlayer);
+    this.view.updateView(this.players, this.currentPlayer);
     this.attachGameBoardListeners();
   }
 }
