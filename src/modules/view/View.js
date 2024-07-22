@@ -17,9 +17,9 @@ export default class View {
   }
 
   renderIntro() {
-    this.gameWrapper.innerHTML = "";
+    this.gameContainer.innerHTML = "";
     const { intro, form } = introElement();
-    this.gameWrapper.appendChild(intro);
+    this.gameContainer.appendChild(intro);
     return form;
   }
 
