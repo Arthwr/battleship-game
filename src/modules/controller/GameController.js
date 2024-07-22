@@ -1,10 +1,10 @@
+import PlayerFactory from "../models/factories/PlayerFactory";
+
 export default class GameController {
   constructor(players, view) {
     this.players = players;
     this.view = view;
-    this.currentPlayer =
-      this.players.find((player) => player.name !== "computer") ||
-      this.players[0];
+    this.currentPlayer = null;
   }
 
   switchPlayer() {
@@ -90,7 +90,9 @@ export default class GameController {
 
   toggleNameInputState(event) {
     const isComputer = event.target.value === "computer";
-    const nameInput = event.target.closest(".menu-col").querySelector('input[type="text"]');
+    const nameInput = event.target
+      .closest(".menu-col")
+      .querySelector('input[type="text"]');
     nameInput.disabled = isComputer;
     this.view.disableNameLabels(event);
   }
@@ -102,6 +104,34 @@ export default class GameController {
         this.toggleNameInputState(event);
       });
     });
+
+    const startGameBtn = form.querySelector('button[type="submit"]');
+    startGameBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.handleStartClick(form);
+    });
+  }
+
+  assignPlayers(playersData) {
+    try {
+      const playersArray = [...playersData];
+      this.players = playersArray.map((playersData) =>
+        PlayerFactory.createPlayer(playersData)
+      );
+
+      // Set initial player currentPlayer after player creation
+      this.currentPlayer =
+        this.players.find((player) => player.name !== "computer") ||
+        this.players[0];
+    } catch (error) {
+      console.log("Error assigning players: ", error);
+    }
+  }
+
+  handleStartClick(form) {
+    const playerFormsData = form.querySelectorAll(".menu-col");
+    this.assignPlayers(playerFormsData);
+    this.setupNewGame();
   }
 
   initApp() {
