@@ -1,9 +1,10 @@
+import capitalizeString from "../utils/capitalizeString";
+
 export default function grid(players) {
   let gridsHTML = "";
 
   players.forEach((player) => {
     const { rowCount, columnCount } = player.gameBoard.getDimensions();
-
     let xAxisLabelHTML = "";
     for (let col = 1; col <= columnCount; col++) {
       const label = String.fromCharCode(64 + col);
@@ -17,9 +18,9 @@ export default function grid(players) {
 
     let playerGridHTML = `
       <div class="gameboard">
-      <div class="player-label" data-player="${player.name}">${
-        player.name.slice(0, 1).toUpperCase() + player.name.slice(1)
-      }</div>
+      <div class="player-label" data-player="${player.name}">
+      ${capitalizeString(player.name)}
+      </div>
         <div class="label-row">
           <div class="label-cell"></div>
         ${xAxisLabelHTML}
