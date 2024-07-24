@@ -88,7 +88,11 @@ export default class View {
     }
   }
 
-  updateView(players, currentPlayer) {
+  renderShipSetupView(players) {
+    this.renderGrid(players);
+  }
+
+  renderGameView(players, currentPlayer) {
     this.gameContainer.innerHTML = "";
     this.renderGrid(players);
     players.forEach((player) => this.renderShips(player));
