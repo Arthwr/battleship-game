@@ -131,7 +131,7 @@ export default class GameController {
   handleStartClick(form) {
     const playerFormsData = form.querySelectorAll(".menu-col");
     this.assignPlayers(playerFormsData);
-    this.setupNewGame();
+    this.setupPlayersFleet();
   }
 
   initApp() {
@@ -139,8 +139,12 @@ export default class GameController {
     this.setupFormListeners(form);
   }
 
+  setupPlayersFleet() {
+    this.view.renderShipSetupView(this.players);
+  }
+
   setupNewGame() {
-    this.view.updateView(this.players, this.currentPlayer);
+    this.view.renderGameView(this.players, this.currentPlayer);
     this.attachGameBoardListeners();
   }
 }
