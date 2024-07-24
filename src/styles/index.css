@@ -9,6 +9,7 @@
   --text: #2d2d2a;
   --btn: #c8cef9;
   --disabled: #aaa;
+  --ship-border: rgba(0, 0, 255, 0.5);
 
   font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   font-weight: normal;
@@ -195,7 +196,49 @@ form > button:active {
   position: relative;
 }
 
-/* Ship */
+/* Ship setup Menu */
+#ship-menu {
+  display: flex;
+  margin-bottom: 2.5rem;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ship-menu h2 {
+  margin: 0 0 4rem;
+}
+
+#ship-menu > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1rem;
+}
+
+.ships-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.game-object {
+  display: flex;
+  border: 1px solid var(--ship-border);
+}
+
+.game-object > .ship {
+  height: 2rem;
+  width: 2rem;
+  background-color: var(--ship);
+}
+
+.game-object > .ship:not(:last-child) {
+  border-right: 1px solid var(--ship-border);
+}
+
+/* In-game Ship */
 .game-cell.ship {
   background-color: var(--ship);
 }

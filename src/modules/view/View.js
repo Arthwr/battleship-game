@@ -1,6 +1,7 @@
 import grid from "../../components/grid";
 import introElement from "../../components/introElement";
 import resultElement from "../../components/resultElement";
+import shipSetupElement from "../../components/shipSetupElement";
 
 export default class View {
   constructor() {
@@ -27,6 +28,11 @@ export default class View {
     const combinedGridHTML = grid(players);
     this.gameContainer.innerHTML = combinedGridHTML;
     this.gameGrid = document.querySelectorAll(".grid");
+  }
+
+  renderShipSetupMenu() {
+    const shipMenu = shipSetupElement();
+    this.gameWrapper.prepend(shipMenu);
   }
 
   renderResult(winner) {
@@ -90,6 +96,7 @@ export default class View {
 
   renderShipSetupView(players) {
     this.renderGrid(players);
+    this.renderShipSetupMenu();
   }
 
   renderGameView(players, currentPlayer) {
