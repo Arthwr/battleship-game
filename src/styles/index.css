@@ -16,6 +16,10 @@
   color: var(--text);
 }
 /* Default styles reset */
+* {
+  box-sizing: border-box;
+}
+
 h1 {
   margin: 0;
   padding: 0;
@@ -214,17 +218,26 @@ form > button:active {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   font-size: 1rem;
 }
 
 .ships-wrapper {
   display: flex;
+  margin: 0.5rem;
   gap: 1rem;
+}
+
+.object-wrapper {
+  display: flex;
+  position: relative;
+  height: 2rem;
 }
 
 .game-object {
   display: flex;
+  position: absolute;
   border: 1px solid var(--ship-border);
 }
 
