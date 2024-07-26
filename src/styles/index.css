@@ -196,7 +196,6 @@ form > button:active {
 }
 
 .game-cell {
-  box-sizing: border-box;
   position: relative;
 }
 
@@ -249,6 +248,15 @@ form > button:active {
 
 .game-object > .ship:not(:last-child) {
   border-right: 1px solid var(--ship-border);
+}
+
+.game-cell .object-wrapper {
+  z-index: 9999;
+}
+
+.game-cell .game-object,
+.game-cell .game-object .ship {
+  border: none;
 }
 
 /* In-game Ship */

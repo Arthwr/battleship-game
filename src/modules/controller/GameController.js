@@ -1,9 +1,11 @@
 import PlayerFactory from "../models/factories/PlayerFactory";
+import DragAndDropManager from "../controller/DragAndDropManager";
 
 export default class GameController {
   constructor(players, view) {
-    this.players = players;
     this.view = view;
+    this.dragAndDropManager = new DragAndDropManager();
+    this.players = players;
     this.currentPlayer = null;
   }
 
@@ -69,9 +71,8 @@ export default class GameController {
 
     const cell = event.target.closest(".game-cell");
     if (cell) {
-      const row = cell.dataset.row;
-      const col = cell.dataset.col;
-      this.processMove([row, col], event);
+      const coordinates = [cell.dataset.row, cell.dataset.col];
+      this.processMove(coordinates, event);
     }
   };
 
@@ -81,10 +82,14 @@ export default class GameController {
     });
   }
 
-  endGame(winner) {
+  removeGameBoardListeners() {
     this.view.gameGrid.forEach((grid) => {
       grid.removeEventListener("click", this.handleGridClick);
     });
+  }
+
+  endGame(winner) {
+    this.removeGameBoardListeners();
     this.view.renderResult(winner);
   }
 
@@ -113,19 +118,15 @@ export default class GameController {
   }
 
   assignPlayers(playersData) {
-    try {
-      const playersArray = [...playersData];
-      this.players = playersArray.map((playersData) =>
-        PlayerFactory.createPlayer(playersData)
-      );
+    const playersArray = [...playersData];
+    this.players = playersArray.map((playersData) =>
+      PlayerFactory.createPlayer(playersData)
+    );
 
-      // Set initial player currentPlayer after player creation
-      this.currentPlayer =
-        this.players.find((player) => player.name !== "computer") ||
-        this.players[0];
-    } catch (error) {
-      console.log("Error assigning players: ", error);
-    }
+    // Set initial player currentPlayer after player creation
+    this.currentPlayer =
+      this.players.find((player) => player.name !== "computer") ||
+      this.players[0];
   }
 
   handleStartClick(form) {
@@ -141,6 +142,7 @@ export default class GameController {
 
   setupPlayersFleet() {
     this.view.renderShipSetupView(this.players);
+    this.dragAndDropManager.setupDragAndDrop(this.view.gameGrid);
   }
 
   setupNewGame() {
