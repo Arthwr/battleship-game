@@ -30,11 +30,6 @@ export default class View {
     this.gameGrid = document.querySelectorAll(".grid");
   }
 
-  renderShipSetupMenu() {
-    const shipMenu = shipSetupElement();
-    this.gameWrapper.prepend(shipMenu);
-  }
-
   renderResult(winner) {
     const winnerMsg = resultElement(winner);
     this.gameWrapper.prepend(winnerMsg);
@@ -94,9 +89,13 @@ export default class View {
     }
   }
 
-  renderShipSetupView(players) {
-    this.renderGrid(players);
-    this.renderShipSetupMenu();
+  renderShipSetupView(player) {
+    if (player.name !== "computer") {
+      this.gameContainer.innerHTML = ``;
+      const shipMenu = shipSetupElement();
+      this.gameWrapper.prepend(shipMenu);
+      this.renderGrid(player);
+    }
   }
 
   renderGameView(players, currentPlayer) {
