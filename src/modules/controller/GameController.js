@@ -141,7 +141,10 @@ export default class GameController {
   }
 
   setupPlayersFleet() {
-    this.view.renderShipSetupView(this.players);
+    const humanPlayers = this.players.filter(
+      (player) => player.name !== "computer"
+    );
+    this.view.renderShipSetupView(humanPlayers);
     this.dragAndDropManager.setupDragAndDrop(this.view.gameGrid);
   }
 
