@@ -3,8 +3,14 @@ export default function shipSetupElement() {
   shipSetup.id = "ship-menu";
 
   shipSetup.innerHTML = `
-    <h2>Available Ships</h2>
-    <div>
+    <div class="menu-head">
+      <h2>Available Ships</h2>
+      <div class="tooltip">
+        <span>Drag and drop your ships on gameboard to position them.</span> 
+        <span>Click on ship's to change ship orientation.</span>
+      </div>
+    </div>
+    <div class="ship-container">
         <div>Prowlers:</div>
         <div class="ships-wrapper">
             <div class="object-wrapper" id="prowler1">
