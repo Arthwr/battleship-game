@@ -9,6 +9,40 @@ export default class GameController {
     this.currentPlayer = null;
   }
 
+  // Initialization
+
+  initApp() {
+    const form = this.view.showIntroScreen();
+    this.setupFormListeners(form);
+  }
+
+  setupPlayersFleet() {
+    const humanPlayers = this.players.filter(
+      (player) => player.name !== "computer"
+    );
+    this.view.showShipSetupView(humanPlayers);
+    this.dragAndDropManager.setupDragAndDrop(this.view.gameGrid);
+  }
+
+  setupNewGame() {
+    this.view.showGameView(this.players, this.currentPlayer);
+    this.attachGameBoardListeners();
+  }
+
+  // Player management
+
+  assignPlayers(playersData) {
+    const playersArray = [...playersData];
+    this.players = playersArray.map((playersData) =>
+      PlayerFactory.createPlayer(playersData)
+    );
+
+    // Set initial player currentPlayer after player creation
+    this.currentPlayer =
+      this.players.find((player) => player.name !== "computer") ||
+      this.players[0];
+  }
+
   switchPlayer() {
     this.currentPlayer =
       this.currentPlayer === this.players[0]
@@ -34,14 +68,8 @@ export default class GameController {
 
     if (attackStatus === "already_attacked") return;
 
-    this.view.updateCell(opponent.name, coordinates, attackStatus);
+    this.view.updateGameCell(opponent.name, coordinates, attackStatus);
     this.endTurn(attackStatus);
-  }
-
-  getWinner() {
-    if (this.players[0].gameBoard.isClear()) return this.players[1].name;
-    if (this.players[1].gameBoard.isClear()) return this.players[0].name;
-    return null;
   }
 
   endTurn(attackStatus) {
@@ -66,6 +94,21 @@ export default class GameController {
     }
   }
 
+  // Game State
+
+  getWinner() {
+    if (this.players[0].gameBoard.isClear()) return this.players[1].name;
+    if (this.players[1].gameBoard.isClear()) return this.players[0].name;
+    return null;
+  }
+
+  endGame(winner) {
+    this.removeGameBoardListeners();
+    this.view.showGameResult(winner);
+  }
+
+  // Event handling
+
   handleGridClick = (event) => {
     if (this.currentPlayer.name === "computer") return;
 
@@ -88,20 +131,7 @@ export default class GameController {
     });
   }
 
-  endGame(winner) {
-    this.removeGameBoardListeners();
-    this.view.renderResult(winner);
-  }
-
-  toggleNameInputState(event) {
-    const isComputer = event.target.value === "computer";
-    const nameInput = event.target
-      .closest(".menu-col")
-      .querySelector('input[type="text"]');
-    nameInput.disabled = isComputer;
-    this.view.disableNameLabels(event);
-  }
-
+  // Form Handling
   setupFormListeners(form) {
     const playerTypeSelectors = form.querySelectorAll('select[name$="-type"]');
     playerTypeSelectors.forEach((select) => {
@@ -117,39 +147,18 @@ export default class GameController {
     });
   }
 
-  assignPlayers(playersData) {
-    const playersArray = [...playersData];
-    this.players = playersArray.map((playersData) =>
-      PlayerFactory.createPlayer(playersData)
-    );
-
-    // Set initial player currentPlayer after player creation
-    this.currentPlayer =
-      this.players.find((player) => player.name !== "computer") ||
-      this.players[0];
-  }
-
   handleStartClick(form) {
     const playerFormsData = form.querySelectorAll(".menu-col");
     this.assignPlayers(playerFormsData);
     this.setupPlayersFleet();
   }
 
-  initApp() {
-    const form = this.view.renderIntro();
-    this.setupFormListeners(form);
-  }
-
-  setupPlayersFleet() {
-    const humanPlayers = this.players.filter(
-      (player) => player.name !== "computer"
-    );
-    this.view.renderShipSetupView(humanPlayers);
-    this.dragAndDropManager.setupDragAndDrop(this.view.gameGrid);
-  }
-
-  setupNewGame() {
-    this.view.renderGameView(this.players, this.currentPlayer);
-    this.attachGameBoardListeners();
+  toggleNameInputState(event) {
+    const isComputer = event.target.value === "computer";
+    const nameInput = event.target
+      .closest(".menu-col")
+      .querySelector('input[type="text"]');
+    nameInput.disabled = isComputer;
+    this.view.toggleNameLabel(event);
   }
 }

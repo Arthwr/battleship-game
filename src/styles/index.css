@@ -168,7 +168,7 @@ form > button:active {
   flex: 1;
 }
 
-.game-cell {
+.gambeboard.active-board .game-cell {
   cursor: pointer;
 }
 
@@ -225,6 +225,7 @@ form > button:active {
 }
 
 .tooltip {
+  width: fit-content;
   gap: 0.2rem;
   border: 1px solid;
   padding: 0.5rem 1rem;
@@ -252,6 +253,10 @@ form > button:active {
   display: flex;
   position: relative;
   height: 2rem;
+}
+
+.object-wrapper[draggable="true"] {
+  cursor: pointer;
 }
 
 .game-object {

@@ -10,39 +10,14 @@ export default class View {
     this.gameGrid = [];
   }
 
-  disableNameLabels(event) {
-    const labelInput = event.target
-      .closest(".menu-col")
-      .querySelector('label[for$="-name"');
-    labelInput.classList.toggle("disabled-label");
-  }
-
-  renderIntro() {
-    this.gameContainer.innerHTML = "";
-    const { intro, form } = introElement();
-    this.gameContainer.appendChild(intro);
-    return form;
-  }
-
-  renderGrid(players) {
+  // Display methods
+  displayGameGrid(players) {
     const combinedGridHTML = grid(players);
     this.gameContainer.innerHTML = combinedGridHTML;
     this.gameGrid = document.querySelectorAll(".grid");
   }
 
-  renderResult(winner) {
-    const winnerMsg = resultElement(winner);
-    this.gameWrapper.prepend(winnerMsg);
-  }
-
-  renderSingleShip(row, col, boardId) {
-    const cellSelector = `.row[data-row="${row}"] .game-cell[data-col="${col}"]`;
-    const gameBoard = document.getElementById(boardId);
-    const cell = gameBoard.querySelector(cellSelector);
-    cell.classList.add("ship");
-  }
-
-  renderShips(player) {
+  displayPlayerShips(player) {
     const gameBoard = player.grid();
     if (gameBoard !== null) {
       gameBoard.forEach((row, rowIndex) => {
@@ -50,14 +25,46 @@ export default class View {
           if (cell.ship && typeof cell.ship === "object") {
             const rowToRender = rowIndex + 1;
             const colToRender = colIndex + 1;
-            this.renderSingleShip(rowToRender, colToRender, player.name);
+            const cellSelector = `.row[data-row="${rowToRender}"] .game-cell[data-col="${colToRender}"]`;
+            const gameBoard = document.getElementById(player.name);
+            const cell = gameBoard.querySelector(cellSelector);
+            cell.classList.add("ship");
           }
         });
       });
     }
   }
 
-  updateCell(playerName, coordinates, status) {
+  showIntroScreen() {
+    this.gameContainer.innerHTML = "";
+    const { intro, form } = introElement();
+    this.gameContainer.appendChild(intro);
+    return form;
+  }
+
+  showGameResult(winner) {
+    const winnerMsg = resultElement(winner);
+    this.gameWrapper.prepend(winnerMsg);
+  }
+
+  showShipSetupView(player) {
+    if (player.name !== "computer") {
+      this.gameContainer.innerHTML = ``;
+      const shipMenu = shipSetupElement();
+      this.gameWrapper.prepend(shipMenu);
+      this.displayGameGrid(player);
+    }
+  }
+
+  showGameView(players, currentPlayer) {
+    this.gameContainer.innerHTML = "";
+    this.displayGameGrid(players);
+    players.forEach((player) => this.displayPlayerShips(player));
+    this.highlightCurrentPlayerLabel(currentPlayer);
+  }
+
+  // Update methods
+  updateGameCell(playerName, coordinates, status) {
     const [row, col] = coordinates;
     const cellSelector = `.row[data-row="${row}"] .game-cell[data-col="${col}"]`;
     const gameBoard = document.getElementById(playerName);
@@ -75,7 +82,7 @@ export default class View {
     }
   }
 
-  updatePlayerLabel(currentPlayer) {
+  highlightCurrentPlayerLabel(currentPlayer) {
     const previousActiveLabel = document.querySelector(".player-label.active");
     if (previousActiveLabel) {
       previousActiveLabel.classList.remove("active");
@@ -89,19 +96,11 @@ export default class View {
     }
   }
 
-  renderShipSetupView(player) {
-    if (player.name !== "computer") {
-      this.gameContainer.innerHTML = ``;
-      const shipMenu = shipSetupElement();
-      this.gameWrapper.prepend(shipMenu);
-      this.renderGrid(player);
-    }
-  }
-
-  renderGameView(players, currentPlayer) {
-    this.gameContainer.innerHTML = "";
-    this.renderGrid(players);
-    players.forEach((player) => this.renderShips(player));
-    this.updatePlayerLabel(currentPlayer);
+  // Utility methods
+  toggleNameLabel(event) {
+    const labelInput = event.target
+      .closest(".menu-col")
+      .querySelector('label[for$="-name"');
+    labelInput.classList.toggle("disabled-label");
   }
 }
