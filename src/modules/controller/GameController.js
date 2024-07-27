@@ -10,7 +10,6 @@ export default class GameController {
   }
 
   // Initialization
-
   initApp() {
     const form = this.view.showIntroScreen();
     this.setupFormListeners(form);
@@ -30,7 +29,6 @@ export default class GameController {
   }
 
   // Player management
-
   assignPlayers(playersData) {
     const playersArray = [...playersData];
     this.players = playersArray.map((playersData) =>
@@ -95,7 +93,6 @@ export default class GameController {
   }
 
   // Game State
-
   getWinner() {
     if (this.players[0].gameBoard.isClear()) return this.players[1].name;
     if (this.players[1].gameBoard.isClear()) return this.players[0].name;
@@ -108,7 +105,6 @@ export default class GameController {
   }
 
   // Event handling
-
   handleGridClick = (event) => {
     if (this.currentPlayer.name === "computer") return;
 
