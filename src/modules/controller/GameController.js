@@ -132,24 +132,24 @@ export default class GameController {
     const playerTypeSelectors = form.querySelectorAll('select[name$="-type"]');
     playerTypeSelectors.forEach((select) => {
       select.addEventListener("change", (event) => {
-        this.toggleNameInputState(event);
+        this.toggleFormNameLabel(event);
       });
     });
 
     const startGameBtn = form.querySelector('button[type="submit"]');
     startGameBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      this.handleStartClick(form);
+      this.handleFormStartClick(form);
     });
   }
 
-  handleStartClick(form) {
+  handleFormStartClick(form) {
     const playerFormsData = form.querySelectorAll(".menu-col");
     this.assignPlayers(playerFormsData);
     this.setupPlayersFleet();
   }
 
-  toggleNameInputState(event) {
+  toggleFormNameLabel(event) {
     const isComputer = event.target.value === "computer";
     const nameInput = event.target
       .closest(".menu-col")
