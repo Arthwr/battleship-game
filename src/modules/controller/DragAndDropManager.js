@@ -6,7 +6,7 @@ export default class DragAndDropManager {
   }
 
   dragStartHandler(event) {
-    const shipElement = event.target.closest(".object-wrapper");
+    const shipElement = event.target.closest(".ship-wrapper");
 
     if (!shipElement) {
       event.preventDefault();
@@ -37,7 +37,7 @@ export default class DragAndDropManager {
   }
 
   setupShipListeners() {
-    const ships = document.querySelectorAll(".object-wrapper");
+    const ships = document.querySelectorAll(".ship-wrapper");
     ships.forEach((ship) => {
       ship.setAttribute("draggable", true);
       ship.addEventListener("dragstart", this.dragStartHandler);

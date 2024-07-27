@@ -243,19 +243,19 @@ form > button:active {
   font-size: 1rem;
 }
 
-.ships-wrapper {
+.ship-bay {
   display: flex;
   margin: 0.5rem;
   gap: 1rem;
 }
 
-.object-wrapper {
+.ship-wrapper {
   display: flex;
   position: relative;
   height: 2rem;
 }
 
-.object-wrapper[draggable="true"] {
+.ship-wrapper[draggable="true"] {
   cursor: pointer;
 }
 
@@ -265,27 +265,27 @@ form > button:active {
   border: 1px solid var(--ship-border);
 }
 
-.game-object > .ship {
+.game-object > .ship-cell {
   height: 2rem;
   width: 2rem;
   background-color: var(--ship);
 }
 
-.game-object > .ship:not(:last-child) {
+.game-object > .ship-cell:not(:last-child) {
   border-right: 1px solid var(--ship-border);
 }
 
-.game-cell .object-wrapper {
+.game-cell .ship-wrapper {
   z-index: 9999;
 }
 
 .game-cell .game-object,
-.game-cell .game-object .ship {
+.game-cell .game-object .ship-cell {
   border: none;
 }
 
 /* In-game Ship */
-.game-cell.ship {
+.game-cell.ship-cell {
   background-color: var(--ship);
 }
 
