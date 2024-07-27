@@ -13,43 +13,43 @@ export default function shipSetupElement() {
     <div class="ship-container">
         <div>Prowlers:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="prowler-1" data-length="1">
+            <div class="ship-wrapper" id="prowler-1" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="prowler-2" data-length="1">
+            <div class="ship-wrapper" id="prowler-2" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="prowler-3" data-length="1">
+            <div class="ship-wrapper" id="prowler-3" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="prowler-4" data-length="1">
+            <div class="ship-wrapper" id="prowler-4" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>
         <div>Sea Serpent:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="serpent-1" data-length="2">
+            <div class="ship-wrapper" id="serpent-1" data-length="2" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="serpent-2" data-length="2">
+            <div class="ship-wrapper" id="serpent-2" data-length="2" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="serpent-3" data-length="2">
+            <div class="ship-wrapper" id="serpent-3" data-length="2" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>
         <div>Tempest Titan:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="titan-1" data-length="3">
+            <div class="ship-wrapper" id="titan-1" data-length="3" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="titan-2" data-length="3">
+            <div class="ship-wrapper" id="titan-2" data-length="3" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>
         <div>Leaviathan Lord:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="lord-1" data-length="4">
+            <div class="ship-wrapper" id="lord-1" data-length="4" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>

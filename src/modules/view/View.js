@@ -53,6 +53,7 @@ export default class View {
       const shipMenu = shipSetupElement();
       this.gameWrapper.prepend(shipMenu);
       this.displayGameGrid(player);
+      this.attachShipDirectionListeners();
     }
   }
 
@@ -102,5 +103,26 @@ export default class View {
       .closest(".menu-col")
       .querySelector('label[for$="-name"');
     labelInput.classList.toggle("disabled-label");
+  }
+
+  toggleShipDirection(event) {
+    const ship = event.currentTarget;
+    if (!ship.closest(".game-cell")) return;
+
+    const gameObject = ship.querySelector(".game-object");
+    if (ship.dataset.direction === "horizontal") {
+      ship.dataset.direction = "vertical";
+      gameObject.style.flexDirection = "column";
+    } else {
+      ship.dataset.direction = "horizontal";
+      gameObject.style.flexDirection = "row";
+    }
+  }
+
+  attachShipDirectionListeners() {
+    const shipWrappers = document.querySelectorAll(".ship-wrapper");
+    shipWrappers.forEach((ship) => {
+      ship.addEventListener("click", this.toggleShipDirection);
+    });
   }
 }
