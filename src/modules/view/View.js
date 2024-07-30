@@ -1,67 +1,54 @@
-import grid from "../../components/grid";
-import introElement from "../../components/introElement";
-import resultElement from "../../components/resultElement";
-import shipSetupElement from "../../components/shipSetupElement";
+import createGrid from "../../components/createGrid";
+import createFormElement from "../../components/createFormElement";
+import createResultElement from "../../components/createResultElement";
+import createShipSetupElement from "../../components/createShipSetupElement";
+import DragAndDropManager from "./DragAndDropManager";
 
 export default class View {
   constructor() {
+    this.DragAndDropManager = new DragAndDropManager();
     this.gameWrapper = document.querySelector(".wrapper");
     this.gameContainer = document.getElementById("game-container");
-    this.gameGrid = [];
+    this.gridHTML = [];
+
+    this.toggleShipDirection = this.toggleShipDirection.bind(this);
+    this.toggleFormNameLabel = this.toggleFormNameLabel.bind(this);
+    this.toggleNameLabel = this.toggleNameLabel.bind(this);
   }
 
-  // Display methods
-  displayGameGrid(players) {
-    const combinedGridHTML = grid(players);
-    this.gameContainer.innerHTML = combinedGridHTML;
-    this.gameGrid = document.querySelectorAll(".grid");
-  }
-
-  displayPlayerShips(player) {
-    const gameBoard = player.grid();
-    if (gameBoard !== null) {
-      gameBoard.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-          if (cell.ship && typeof cell.ship === "object") {
-            const rowToRender = rowIndex + 1;
-            const colToRender = colIndex + 1;
-            const cellSelector = `.row[data-row="${rowToRender}"] .game-cell[data-col="${colToRender}"]`;
-            const gameBoard = document.getElementById(player.name);
-            const cell = gameBoard.querySelector(cellSelector);
-            cell.classList.add("ship");
-          }
-        });
-      });
-    }
-  }
-
-  showIntroScreen() {
+  showPlayersForm(callBackHandler) {
     this.gameContainer.innerHTML = "";
-    const { intro, form } = introElement();
-    this.gameContainer.appendChild(intro);
-    return form;
+
+    const form = this.#createPlayersForm();
+    this.gameContainer.appendChild(form);
+
+    this.#setupFormListeners(form, callBackHandler);
   }
 
-  showGameResult(winner) {
-    const winnerMsg = resultElement(winner);
-    this.gameWrapper.prepend(winnerMsg);
-  }
-
-  showShipSetupView(player) {
+  showShipSetup(player) {
     if (player.name !== "computer") {
-      this.gameContainer.innerHTML = ``;
-      const shipMenu = shipSetupElement();
-      this.gameWrapper.prepend(shipMenu);
-      this.displayGameGrid(player);
-      this.attachShipDirectionListeners();
+      this.gameContainer.innerHTML = "";
+      this.gameWrapper.style.flexDirection = "row";
+
+      const shipSetupElement = createShipSetupElement();
+      this.gameWrapper.prepend(shipSetupElement);
+
+      this.#displayGameGrid(player);
+      this.#setupShipDirectionListeners();
+      this.DragAndDropManager.setupDragAndDrop(this.gridHTML);
     }
   }
 
   showGameView(players, currentPlayer) {
     this.gameContainer.innerHTML = "";
-    this.displayGameGrid(players);
-    players.forEach((player) => this.displayPlayerShips(player));
-    this.highlightCurrentPlayerLabel(currentPlayer);
+    this.#displayGameGrid(players);
+    players.forEach((player) => this.#displayPlayerShips(player));
+    this.updatePlayerLabel(currentPlayer);
+  }
+
+  showGameResult(winner) {
+    const result = createResultElement(winner);
+    this.gameWrapper.prepend(result);
   }
 
   // Update methods
@@ -83,7 +70,7 @@ export default class View {
     }
   }
 
-  highlightCurrentPlayerLabel(currentPlayer) {
+  updatePlayerLabel(currentPlayer) {
     const previousActiveLabel = document.querySelector(".player-label.active");
     if (previousActiveLabel) {
       previousActiveLabel.classList.remove("active");
@@ -97,14 +84,7 @@ export default class View {
     }
   }
 
-  // Utility methods
-  toggleNameLabel(event) {
-    const labelInput = event.target
-      .closest(".menu-col")
-      .querySelector('label[for$="-name"');
-    labelInput.classList.toggle("disabled-label");
-  }
-
+  // Utility
   toggleShipDirection(event) {
     const ship = event.currentTarget;
     if (!ship.closest(".game-cell")) return;
@@ -119,10 +99,74 @@ export default class View {
     }
   }
 
-  attachShipDirectionListeners() {
+  toggleFormNameLabel(event) {
+    const isComputer = event.target.value === "computer";
+    const nameInput = event.target
+      .closest(".menu-col")
+      .querySelector('input[type="text"]');
+    nameInput.disabled = isComputer;
+    this.toggleNameLabel(event);
+  }
+
+  toggleNameLabel(event) {
+    const labelInput = event.target
+      .closest(".menu-col")
+      .querySelector('label[for$="-name"');
+    labelInput.classList.toggle("disabled-label");
+  }
+
+  #setupShipDirectionListeners() {
     const shipWrappers = document.querySelectorAll(".ship-wrapper");
     shipWrappers.forEach((ship) => {
       ship.addEventListener("click", this.toggleShipDirection);
     });
+  }
+
+  // Form Handling
+  #createPlayersForm() {
+    this.gameContainer.innerHTML = "";
+    const form = createFormElement();
+
+    return form;
+  }
+
+  #setupFormListeners(form, clickCallback) {
+    const playerTypeSelectors = form.querySelectorAll('select[name$="-type"]');
+    playerTypeSelectors.forEach((select) => {
+      select.addEventListener("change", (event) => {
+        this.toggleFormNameLabel(event);
+      });
+    });
+
+    const startGameBtn = form.querySelector('button[type="submit"]');
+    startGameBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      clickCallback(form);
+    });
+  }
+
+  // Display methods
+  #displayGameGrid(players) {
+    const combinedGridHTML = createGrid(players);
+    this.gameContainer.innerHTML = combinedGridHTML;
+    this.gridHTML = document.querySelectorAll(".grid");
+  }
+
+  #displayPlayerShips(player) {
+    const gameBoard = player.createGrid();
+    if (gameBoard !== null) {
+      gameBoard.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+          if (cell.ship && typeof cell.ship === "object") {
+            const rowToRender = rowIndex + 1;
+            const colToRender = colIndex + 1;
+            const cellSelector = `.row[data-row="${rowToRender}"] .game-cell[data-col="${colToRender}"]`;
+            const gameBoard = document.getElementById(player.name);
+            const cell = gameBoard.querySelector(cellSelector);
+            cell.classList.add("ship");
+          }
+        });
+      });
+    }
   }
 }

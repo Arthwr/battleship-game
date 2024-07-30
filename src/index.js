@@ -1,9 +1,20 @@
 import GameController from "./modules/controller/GameController";
+import Game from "./modules/models/Game";
+// import Gameboard from "./modules/models/Gameboard";
+// import { ComputerPlayer, HumanPlayer } from "./modules/models/Player";
+// import Ship from "./modules/models/Ship";
 import View from "./modules/view/View";
 import "./styles/index.css";
 
-const game = new GameController([], new View());
-game.initApp(); 
+const game = new GameController(new Game(), new View());
+game.init();
+
+// const players = [
+//   new HumanPlayer(new Gameboard(10, 10), "Arthur"),
+//   new ComputerPlayer(new Gameboard(10, 10)),
+// ];
+// const game = new GameController(new Game(players, players[0]), new View());
+// game.initApp();
 
 // // Player -------------------------------------------------------------
 // // Place 4 ships with length 1
@@ -87,4 +98,4 @@ game.initApp();
 //   [2, 5],
 // ]);
 
-
+// game.setupNewGame();

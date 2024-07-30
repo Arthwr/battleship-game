@@ -53,6 +53,7 @@ section {
 
 .wrapper {
   display: flex;
+  flex-direction: column;
   gap: 4rem;
   justify-content: center;
   align-items: center;
@@ -317,4 +318,9 @@ form > button:active {
 
 .result > b {
   color: var(--highlight);
+}
+
+/* Testing purposes */
+.game-cell.ship {
+  background-color: var(--ship);
 }

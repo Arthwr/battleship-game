@@ -1,7 +1,7 @@
 import capitalizeString from "../utils/capitalizeString";
 
-export default function grid(players) {
-  let gridsHTML = "";
+export default function createGrid(players) {
+  let gridElement = "";
 
   players.forEach((player) => {
     const { rowCount, columnCount } = player.gameBoard.getDimensions();
@@ -43,8 +43,8 @@ export default function grid(players) {
       </div>
     </div>
     `;
-    gridsHTML += playerGridHTML;
+    gridElement += playerGridHTML;
   });
 
-  return gridsHTML;
+  return gridElement;
 }

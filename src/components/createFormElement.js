@@ -1,8 +1,8 @@
-export default function introElement() {
-  const intro = document.createElement("div");
-  intro.id = "menu";
+export default function createFormElement() {
+  const form = document.createElement("div");
+  form.id = "menu";
 
-  intro.innerHTML = `
+  form.innerHTML = `
     <form id="game-form">
         <h2>Choose Players</h2>
         <div>
@@ -37,6 +37,5 @@ export default function introElement() {
     </form>
     `;
 
-  const form = intro.querySelector("#game-form");
-  return { intro, form };
+  return form;
 }

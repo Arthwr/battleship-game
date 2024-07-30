@@ -1,4 +1,4 @@
-export default function shipSetupElement() {
+export default function createShipSetupElement() {
   const shipSetup = document.createElement("div");
   shipSetup.id = "ship-menu";
 

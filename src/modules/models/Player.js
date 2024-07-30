@@ -21,10 +21,10 @@ export class ComputerPlayer extends Player {
     this.attackHistory = new Set();
   }
 
-  chooseMove(opponentGameBoard) {
+  chooseRandomMove(opponentGameBoard) {
     let row, col;
     const { rowCount, columnCount } = opponentGameBoard.getDimensions();
-
+    
     do {
       row = Math.floor(Math.random() * (rowCount - 1)) + 1;
       col = Math.floor(Math.random() * (columnCount - 1)) + 1;
