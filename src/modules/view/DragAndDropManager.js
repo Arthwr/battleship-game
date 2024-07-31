@@ -1,33 +1,48 @@
 export default class DragAndDropManager {
   constructor() {
-    this.dragStartHandler = this.dragStartHandler.bind(this);
+    this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragOver = this.handleDragOver.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
   }
 
-  dragStartHandler(event) {
-    const shipElement = event.target.closest(".ship-wrapper");
+  // prettier-ignore
+  handleDragStart(event) {
+    const ship = event.currentTarget;
+    const shipId = ship.id;
 
-    if (!shipElement) {
+    if (!shipId) {
       event.preventDefault();
       return;
     }
-    
-    const shipId = shipElement.id;
-    event.dataTransfer.setData("text/plain", shipId);
+
+    const targetCell = document.elementFromPoint(event.clientX, event.clientY);
+    const shipIndex = [...targetCell.parentNode.children].indexOf(targetCell);
+
+    event.dataTransfer.setData("text/plain", JSON.stringify({ shipId, shipIndex }));
   }
 
   handleDragOver(event) {
     event.preventDefault();
   }
 
+  // prettier-ignore
   handleDrop(event) {
-    const shipId = event.dataTransfer.getData("text/plain");
-    const shipElement = document.getElementById(shipId);
+    event.preventDefault();
 
-    if (shipElement && event.target.classList.contains("game-cell")) {
-      event.preventDefault();
-      event.target.appendChild(shipElement);
+    const data = event.dataTransfer.getData("text/plain");
+    if (!data) return;
+
+    const { shipId, shipIndex } = JSON.parse(data);
+    const ship = document.getElementById(shipId);
+    const drop = event.target;
+
+    if (!ship && !drop.classList.contains("game-cell")) return;
+
+    const newPosition = this.calculateNewPosition(drop, ship.dataset.direction, shipIndex);
+    const dropZone = document.querySelector(newPosition);
+
+    if (dropZone && event.target.classList.contains("game-cell")) {
+      dropZone.appendChild(ship);
     }
   }
 
@@ -40,7 +55,7 @@ export default class DragAndDropManager {
     const ships = document.querySelectorAll(".ship-wrapper");
     ships.forEach((ship) => {
       ship.setAttribute("draggable", true);
-      ship.addEventListener("dragstart", this.dragStartHandler);
+      ship.addEventListener("dragstart", this.handleDragStart);
     });
   }
 
@@ -54,5 +69,16 @@ export default class DragAndDropManager {
         });
       }
     });
+  }
+
+  // Utility
+  calculateNewPosition(target, direction, offset) {
+    const row = target.dataset.row;
+    const col = target.dataset.col;
+
+    const [newRow, newCol] =
+      direction === "horizontal" ? [row, col - offset] : [row - offset, col];
+
+    return `.game-cell[data-row="${newRow}"][data-col="${newCol}"]`;
   }
 }
