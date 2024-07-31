@@ -90,12 +90,18 @@ export default class View {
     if (!ship.closest(".game-cell")) return;
 
     const gameObject = ship.querySelector(".game-object");
-    if (ship.dataset.direction === "horizontal") {
-      ship.dataset.direction = "vertical";
-      gameObject.style.flexDirection = "column";
+
+    const isHorizontal = ship.dataset.direction === "horizontal";
+    ship.dataset.direction = isHorizontal ? "vertical" : "horizontal";
+    gameObject.style.flexDirection = isHorizontal ? "column" : "row";
+
+    // Swap height with width based on direction
+    if (isHorizontal) {
+      ship.style.height = ship.style.width;
+      ship.style.width = "2rem";
     } else {
-      ship.dataset.direction = "horizontal";
-      gameObject.style.flexDirection = "row";
+      ship.style.width = ship.style.height;
+      ship.style.height = "2rem";
     }
   }
 
