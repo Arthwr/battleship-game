@@ -3,6 +3,7 @@ import createFormElement from "../../components/createFormElement";
 import createResultElement from "../../components/createResultElement";
 import createShipSetupElement from "../../components/createShipSetupElement";
 import DragAndDropManager from "./DragAndDropManager";
+import isWithinBounds from "../../utils/isWithinBounds";
 
 export default class View {
   constructor() {
@@ -87,21 +88,35 @@ export default class View {
   // Utility
   toggleShipDirection(event) {
     const ship = event.currentTarget;
-    if (!ship.closest(".game-cell")) return;
-
     const gameObject = ship.querySelector(".game-object");
+    const gameCell = gameObject.closest(".game-cell");
 
-    const isHorizontal = ship.dataset.direction === "horizontal";
-    ship.dataset.direction = isHorizontal ? "vertical" : "horizontal";
-    gameObject.style.flexDirection = isHorizontal ? "column" : "row";
+    if (!gameCell) return;
 
-    // Swap height with width based on direction
-    if (isHorizontal) {
-      ship.style.height = ship.style.width;
-      ship.style.width = "2rem";
-    } else {
-      ship.style.width = ship.style.height;
-      ship.style.height = "2rem";
+    const { direction: currentDirection, length } = ship.dataset;
+    const isHorizontal = currentDirection === "horizontal";
+
+    const newDirection = isHorizontal ? "vertical" : "horizontal";
+
+    const isWithinGameBounds = isWithinBounds(
+      gameCell.dataset.row,
+      gameCell.dataset.col,
+      newDirection,
+      length
+    );
+
+    if (isWithinGameBounds) {
+      ship.dataset.direction = newDirection;
+      gameObject.style.flexDirection = isHorizontal ? "column" : "row";
+
+      // Swap height with width based on direction
+      if (isHorizontal) {
+        ship.style.height = ship.style.width;
+        ship.style.width = "2rem";
+      } else {
+        ship.style.width = ship.style.height;
+        ship.style.height = "2rem";
+      }
     }
   }
 

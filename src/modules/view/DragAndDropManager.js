@@ -1,3 +1,5 @@
+import isWithinBounds from "../../utils/isWithinBounds";
+
 export default class DragAndDropManager {
   constructor() {
     this.handleDragStart = this.handleDragStart.bind(this);
@@ -7,9 +9,11 @@ export default class DragAndDropManager {
 
   // prettier-ignore
   handleDragStart(event) {
-    const ship = event.currentTarget;
-    const shipId = ship.id;
+    event.stopPropagation(); 
 
+    const ship = event.currentTarget;
+
+    const shipId = ship.id;
     if (!shipId) {
       event.preventDefault();
       return;
@@ -23,13 +27,14 @@ export default class DragAndDropManager {
 
   handleDragOver(event) {
     event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
   }
 
   // prettier-ignore
   handleDrop(event) {
     event.preventDefault();
-
-    const data = event.dataTransfer.getData("text/plain");
+    
+    const data = event.dataTransfer.getData("text/plain").trim();    
     if (!data) return;
 
     const { shipId, shipIndex } = JSON.parse(data);
@@ -38,7 +43,7 @@ export default class DragAndDropManager {
 
     if (!ship && !drop.classList.contains("game-cell")) return;
 
-    const newPosition = this.calculateNewPosition(drop, ship.dataset.direction, shipIndex);
+    const newPosition = this.calculateNewPosition(drop, ship.dataset.direction, shipIndex, ship.dataset.length);
     const dropZone = document.querySelector(newPosition);
 
     if (dropZone && event.target.classList.contains("game-cell")) {
@@ -72,13 +77,14 @@ export default class DragAndDropManager {
   }
 
   // Utility
-  calculateNewPosition(target, direction, offset) {
-    const row = target.dataset.row;
-    const col = target.dataset.col;
+  calculateNewPosition(target, direction, offset, length) {
+    const [row, col] = [Number(target.dataset.row), Number(target.dataset.col)];
 
     const [newRow, newCol] =
       direction === "horizontal" ? [row, col - offset] : [row - offset, col];
 
-    return `.game-cell[data-row="${newRow}"][data-col="${newCol}"]`;
+    if (isWithinBounds(newRow, newCol, direction, length)) {
+      return `.game-cell[data-row="${newRow}"][data-col="${newCol}"]`;
+    }
   }
 }
