@@ -12,8 +12,8 @@ export default class DragAndDropManager {
     event.stopPropagation(); 
 
     const ship = event.currentTarget;
-
     const shipId = ship.id;
+
     if (!shipId) {
       event.preventDefault();
       return;
@@ -34,9 +34,7 @@ export default class DragAndDropManager {
   handleDrop(event) {
     event.preventDefault();
     
-    const data = event.dataTransfer.getData("text/plain").trim();    
-    if (!data) return;
-
+    const data = event.dataTransfer.getData("text/plain");  
     const { shipId, shipIndex } = JSON.parse(data);
     const ship = document.getElementById(shipId);
     const drop = event.target;
@@ -71,12 +69,17 @@ export default class DragAndDropManager {
         gameCells.forEach((cell) => {
           cell.addEventListener("dragover", this.handleDragOver);
           cell.addEventListener("drop", this.handleDrop);
+          this.disableUserSelect(cell);
         });
       }
     });
   }
 
   // Utility
+  disableUserSelect(cell) {
+    cell.style.userSelect = "none";
+  }
+
   calculateNewPosition(target, direction, offset, length) {
     const [row, col] = [Number(target.dataset.row), Number(target.dataset.col)];
 

@@ -257,7 +257,7 @@ form > button:active {
 }
 
 .ship-wrapper[draggable="true"] {
-  cursor: pointer;
+  cursor: move;
 }
 
 .game-object {
