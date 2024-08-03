@@ -5,29 +5,32 @@ export default class DragAndDropManager {
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragOver = this.handleDragOver.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
+    this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
   // prettier-ignore
   handleDragStart(event) {
-    event.stopPropagation(); 
+    event.stopPropagation();
 
     const ship = event.currentTarget;
     const shipId = ship.id;
-
-    if (!shipId) {
-      event.preventDefault();
-      return;
-    }
-
     const targetCell = document.elementFromPoint(event.clientX, event.clientY);
     const shipIndex = [...targetCell.parentNode.children].indexOf(targetCell);
 
     event.dataTransfer.setData("text/plain", JSON.stringify({ shipId, shipIndex }));
+    this.toggleElementVisibility(ship);
   }
 
   handleDragOver(event) {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
+
+    return false;
+  }
+
+  handleDragEnd(event) {
+    const ship = event.currentTarget;
+    this.toggleElementVisibility(ship);
   }
 
   // prettier-ignore
@@ -38,9 +41,6 @@ export default class DragAndDropManager {
     const { shipId, shipIndex } = JSON.parse(data);
     const ship = document.getElementById(shipId);
     const drop = event.target;
-
-    if (!ship && !drop.classList.contains("game-cell")) return;
-
     const newPosition = this.calculateNewPosition(drop, ship.dataset.direction, shipIndex, ship.dataset.length);
     const dropZone = document.querySelector(newPosition);
 
@@ -59,6 +59,7 @@ export default class DragAndDropManager {
     ships.forEach((ship) => {
       ship.setAttribute("draggable", true);
       ship.addEventListener("dragstart", this.handleDragStart);
+      ship.addEventListener("dragend", this.handleDragEnd);
     });
   }
 
@@ -76,6 +77,12 @@ export default class DragAndDropManager {
   }
 
   // Utility
+  toggleElementVisibility(element) {
+    setTimeout(() => {
+      element.style.opacity = element.style.opacity === "0" ? "1" : "0";
+    }, 0);
+  }
+
   disableUserSelect(cell) {
     cell.style.userSelect = "none";
   }
@@ -91,3 +98,8 @@ export default class DragAndDropManager {
     }
   }
 }
+
+// To do:
+// 1. prevent ship collision from switching horizontal to vertical and vice versa;
+// 2. prevent ship placement in close proximity of other ships (minimum 1 cell distance between each ship);
+// 3. fix a bug where you can't place ship on a new position if at least 1 cell was occupied by that ship before;
