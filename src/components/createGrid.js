@@ -1,8 +1,9 @@
 import capitalizeString from "../utils/capitalizeString";
 
-export default function createGrid(players) {
+export default function createGrid(playersData) {
   let gridElement = "";
-
+  const players = Array.isArray(playersData) ? playersData : [playersData];
+  
   players.forEach((player) => {
     const { rowCount, columnCount } = player.gameBoard.getDimensions();
     let xAxisLabelHTML = "";
