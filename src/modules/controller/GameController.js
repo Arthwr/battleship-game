@@ -4,17 +4,19 @@ export default class GameController {
     this.view = view;
 
     this.handleGridClick = this.handleGridClick.bind(this);
+    this.handleShipSetup = this.handleShipSetup.bind(this);
     this.handleFormStartClick = this.handleFormStartClick.bind(this);
     this.handleMove = this.handleMove.bind(this);
+
+    this.humanPlayersQueue = [];
   }
 
   init() {
     this.view.showPlayersForm(this.handleFormStartClick);
   }
 
-  setupPlayerFleet() {
-    const humanPlayers = this.game.getHumanPlayers();
-    this.view.showShipSetup(humanPlayers);
+  setupPlayerFleet(player) {
+    this.view.showShipSetup(player, this.handleShipSetup);
   }
 
   setupNewGame() {
@@ -39,7 +41,17 @@ export default class GameController {
   handleFormStartClick(form) {
     const playersData = form.querySelectorAll(".menu-col");
     this.game.setupPlayers(playersData);
-    this.setupPlayerFleet();
+    this.humanPlayersQueue = this.game.getHumanPlayers();
+    this.handleShipSetup();
+  }
+
+  handleShipSetup() {
+    if (this.humanPlayersQueue.length === 0) {
+      return this.setupNewGame();
+    }
+
+    const nextPlayer = this.humanPlayersQueue.shift();
+    this.setupPlayerFleet(nextPlayer);
   }
 
   handleMove(coordinates, event = null) {
@@ -59,7 +71,7 @@ export default class GameController {
 
     const turnResult = this.game.checkWinner(status);
     if (turnResult) {
-      this.#handleGameEnd(turnResult);
+      return this.#handleGameEnd(turnResult);
     }
 
     this.#handlePlayerLabelUpdate();
@@ -77,13 +89,13 @@ export default class GameController {
   }
 
   #attachGameBoardListeners() {
-    this.view.gameGrid.forEach((grid) => {
+    this.view.gridHTML.forEach((grid) => {
       grid.addEventListener("click", this.handleGridClick);
     });
   }
 
   #removeGameBoardListeners() {
-    this.view.gameGrid.forEach((grid) => {
+    this.view.gridHTML.forEach((grid) => {
       grid.removeEventListener("click", this.handleGridClick);
     });
   }
