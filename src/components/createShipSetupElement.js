@@ -54,6 +54,7 @@ export default function createShipSetupElement() {
             </div>
         </div>
     </div>  
+    <button class="confirm-ships-btn">Confirm ship placement</button>
   `;
 
   setTimeout(() => {
