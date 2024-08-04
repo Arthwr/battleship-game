@@ -26,22 +26,24 @@ export default class View {
     this.#setupFormListeners(form, callBackHandler);
   }
 
-  showShipSetup(player) {
-    if (player.name !== "computer") {
-      this.gameContainer.innerHTML = "";
-      this.gameWrapper.style.flexDirection = "row";
+  showShipSetup(player, callback) {
+    this.gameContainer.innerHTML = "";
+    this.gameWrapper.style.flexDirection = "row";
+    this.#clearMenu();
 
-      const shipSetupElement = createShipSetupElement();
-      this.gameWrapper.prepend(shipSetupElement);
-
-      this.#displayGameGrid(player);
-      this.#setupShipDirectionListeners();
-      this.DragAndDropManager.setupDragAndDrop(this.gridHTML);
-    }
+    const shipSetupElement = createShipSetupElement();
+    this.gameWrapper.prepend(shipSetupElement);
+    this.#displayGameGrid(player);
+    this.#setupShipDirectionListeners();
+    this.#setupShipConfirmationListener(callback);
+    this.DragAndDropManager.setupDragAndDrop(this.gridHTML);
   }
 
   showGameView(players, currentPlayer) {
     this.gameContainer.innerHTML = "";
+    this.gameWrapper.style.flexDirection = "column";
+    this.#clearMenu();
+    
     this.#displayGameGrid(players);
     players.forEach((player) => this.#displayPlayerShips(player));
     this.updatePlayerLabel(currentPlayer);
@@ -136,6 +138,16 @@ export default class View {
     labelInput.classList.toggle("disabled-label");
   }
 
+  #clearMenu() {
+    const menu = document.getElementById("ship-menu");
+    if (menu) menu.remove();
+  }
+
+  #setupShipConfirmationListener(callback) {
+    const button = document.querySelector(".confirm-ships-btn");
+    button.addEventListener("click", callback);
+  }
+
   #setupShipDirectionListeners() {
     const shipWrappers = document.querySelectorAll(".ship-wrapper");
     shipWrappers.forEach((ship) => {
@@ -174,7 +186,8 @@ export default class View {
   }
 
   #displayPlayerShips(player) {
-    const gameBoard = player.createGrid();
+    console.log(player);
+    const gameBoard = player.grid();
     if (gameBoard !== null) {
       gameBoard.forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
