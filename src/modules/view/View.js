@@ -23,7 +23,7 @@ export default class View {
     const form = this.#createPlayersForm();
     this.gameContainer.appendChild(form);
 
-    this.#setupFormListeners(form, callBackHandler);
+    this.#setupFormListeners(callBackHandler);
   }
 
   showShipSetup(player, callback) {
@@ -43,7 +43,7 @@ export default class View {
     this.gameContainer.innerHTML = "";
     this.gameWrapper.style.flexDirection = "column";
     this.#clearMenu();
-    
+
     this.#displayGameGrid(players);
     players.forEach((player) => this.#displayPlayerShips(player));
     this.updatePlayerLabel(currentPlayer);
@@ -52,6 +52,17 @@ export default class View {
   showGameResult(winner) {
     const result = createResultElement(winner);
     this.gameWrapper.prepend(result);
+  }
+
+  showError(message) {
+    const errorElement = document.querySelector(".error-msg");
+    errorElement.textContent = message;
+    errorElement.classList.add("shake");
+    errorElement.style.display = "block";
+
+    setTimeout(() => {
+      errorElement.classList.remove("shake");
+    }, 500);
   }
 
   // Update methods
@@ -88,6 +99,19 @@ export default class View {
   }
 
   // Utility
+  hasUnplacedShips() {
+    const parentElements = this.gameWrapper.querySelectorAll(".ship-bay");
+    if (!parentElements) return;
+
+    for (const element of parentElements) {
+      if (element.children.length !== 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   toggleShipDirection(event) {
     const ship = event.currentTarget;
     const gameObject = ship.querySelector(".game-object");
@@ -163,7 +187,8 @@ export default class View {
     return form;
   }
 
-  #setupFormListeners(form, clickCallback) {
+  #setupFormListeners(clickCallback) {
+    const form = document.getElementById("game-form");
     const playerTypeSelectors = form.querySelectorAll('select[name$="-type"]');
     playerTypeSelectors.forEach((select) => {
       select.addEventListener("change", (event) => {
@@ -171,10 +196,9 @@ export default class View {
       });
     });
 
-    const startGameBtn = form.querySelector('button[type="submit"]');
-    startGameBtn.addEventListener("click", (e) => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
-      clickCallback(form);
+      clickCallback();
     });
   }
 
