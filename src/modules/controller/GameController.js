@@ -38,14 +38,19 @@ export default class GameController {
     }
   }
 
-  handleFormStartClick(form) {
-    const playersData = form.querySelectorAll(".menu-col");
+  handleFormStartClick() {
+    const playersData = document.querySelectorAll(".menu-col");
     this.game.setupPlayers(playersData);
     this.humanPlayersQueue = this.game.getHumanPlayers();
     this.handleShipSetup();
   }
 
   handleShipSetup() {
+    if (this.view.hasUnplacedShips()) {
+      const message = "Can't continue unless all ships are placed on gameboard";
+      return this.view.showError(message);
+    }
+
     if (this.humanPlayersQueue.length === 0) {
       return this.setupNewGame();
     }

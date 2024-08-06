@@ -113,7 +113,7 @@ form > div {
 form > button {
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: 0.3rem;
   border: none;
   background-color: var(--btn);
 }
@@ -204,7 +204,6 @@ form > button:active {
 #ship-menu {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .menu-head,
@@ -285,7 +284,7 @@ form > button:active {
 
 .confirm-ships-btn {
   cursor: pointer;
-  border-radius: 0.75rem;
+  border-radius: 0.3rem;
   padding: 0.5rem 1rem;
   border: none;
   background-color: var(--btn);
@@ -295,6 +294,38 @@ form > button:active {
 
 .confirm-ships-btn:active {
   transform: translateY(4px);
+}
+
+.error-msg {
+  display: none;
+  width: fit-content;
+  color: red;
+  margin-top: 1rem;
+}
+
+.shake {
+  animation: shake 0.5s linear;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(30px);
+  }
+  20% {
+    transform: translateX(-30px);
+  }
+  40% {
+    transform: translateX(15px);
+  }
+  60% {
+    transform: translateX(-15px);
+  }
+  80% {
+    transform: translateX(8px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }
 
 /* In-game Ship */
