@@ -3,6 +3,6 @@ import capitalizeString from "../utils/capitalizeString";
 export default function createResultElement(winner) {
   const resultElement = document.createElement("div");
   resultElement.className = "result";
-  resultElement.innerHTML = `Game has ended! <b>${capitalizeString(winner)}</b> has won the game!</div>`;
+  resultElement.innerHTML = `The game is over! <b>${capitalizeString(winner)}</b> is the winner!</div>`;
   return resultElement;
 }
