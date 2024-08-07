@@ -108,7 +108,6 @@ export default class View {
   }
 
   updatePlayerLabel(currentPlayer) {
-    console.log(currentPlayer)
     const previousActiveLabel = document.querySelector(".player-label.active");
     if (previousActiveLabel) {
       previousActiveLabel.classList.remove("active");
