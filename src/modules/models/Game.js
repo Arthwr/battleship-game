@@ -1,4 +1,5 @@
 import PlayerFactory from "./factories/PlayerFactory";
+import Ship from "./Ship";
 
 export default class Game {
   #players;
@@ -27,6 +28,12 @@ export default class Game {
       PlayerFactory.createPlayer(playersData)
     );
     this.#setFirstPlayer();
+  }
+
+  storePlayerShips(player, data) {
+    data.forEach((ship) => {
+      player.gameBoard.place(new Ship(ship.length), ship.coordinates);
+    });
   }
 
   processMove(coordinates) {
