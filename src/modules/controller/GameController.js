@@ -4,8 +4,9 @@ export default class GameController {
     this.view = view;
 
     this.handleGridClick = this.handleGridClick.bind(this);
-    this.handleShipSetup = this.handleShipSetup.bind(this);
+    this.handleInitialShipSetup = this.handleInitialShipSetup.bind(this);
     this.handleFormStartClick = this.handleFormStartClick.bind(this);
+    this.handleShipConfirmation = this.handleShipConfirmation.bind(this);
     this.handleMove = this.handleMove.bind(this);
 
     this.humanPlayersQueue = [];
@@ -15,8 +16,10 @@ export default class GameController {
     this.view.showPlayersForm(this.handleFormStartClick);
   }
 
-  setupPlayerFleet(player) {
-    this.view.showShipSetup(player, this.handleShipSetup);
+  setupPlayerFleet(currentPlayer) {
+    this.view.showShipSetup(currentPlayer, () =>
+      this.handleShipConfirmation(currentPlayer)
+    );
   }
 
   setupNewGame() {
@@ -42,14 +45,26 @@ export default class GameController {
     const playersData = document.querySelectorAll(".menu-col");
     this.game.setupPlayers(playersData);
     this.humanPlayersQueue = this.game.getHumanPlayers();
-    this.handleShipSetup();
+    this.handleInitialShipSetup();
   }
 
-  handleShipSetup() {
+  handleInitialShipSetup() {
+    if (this.humanPlayersQueue.length === 0) {
+      return this.setupNewGame();
+    }
+
+    const nextPlayer = this.humanPlayersQueue.shift();
+    this.setupPlayerFleet(nextPlayer);
+  }
+
+  handleShipConfirmation(player) {
     if (this.view.hasUnplacedShips()) {
       const message = "Can't continue unless all ships are placed on gameboard";
       return this.view.showError(message);
     }
+
+    const shipData = this.view.getShipPlacementData();
+    this.game.storePlayerShips(player, shipData);
 
     if (this.humanPlayersQueue.length === 0) {
       return this.setupNewGame();
@@ -79,8 +94,8 @@ export default class GameController {
       return this.#handleGameEnd(turnResult);
     }
 
-    this.#handlePlayerLabelUpdate();
     this.game.endTurn(status, this.handleMove);
+    this.#handlePlayerLabelUpdate();
   }
 
   #handleGameEnd(winner) {
