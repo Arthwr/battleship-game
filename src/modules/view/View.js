@@ -4,6 +4,7 @@ import createResultElement from "../../components/createResultElement";
 import createShipSetupElement from "../../components/createShipSetupElement";
 import DragAndDropManager from "./DragAndDropManager";
 import isWithinBounds from "../../utils/isWithinBounds";
+import calculateShipCoordinates from "../../utils/calculateShipCoordinates";
 
 export default class View {
   constructor() {
@@ -65,6 +66,28 @@ export default class View {
     }, 500);
   }
 
+  // Read data
+  // prettier-ignore
+  getShipPlacementData() {
+    const grid = document.querySelector(".grid");
+    const shipWrappers = grid.querySelectorAll(".ship-wrapper");
+    const shipData = Array.from(shipWrappers).map((element) => {
+      const parentCell = element.closest(".game-cell");
+      const direction = element.dataset.direction;
+      const length = Number(element.dataset.length);
+      const startRow = Number(parentCell.dataset.row);
+      const startCol = Number(parentCell.dataset.col);
+      const coordinates = calculateShipCoordinates(length, direction, startRow, startCol);
+
+      return {
+        length,
+        coordinates,
+      };
+    });
+
+    return shipData;
+  }
+
   // Update methods
   updateGameCell(playerName, coordinates, status) {
     const [row, col] = coordinates;
@@ -85,6 +108,7 @@ export default class View {
   }
 
   updatePlayerLabel(currentPlayer) {
+    console.log(currentPlayer)
     const previousActiveLabel = document.querySelector(".player-label.active");
     if (previousActiveLabel) {
       previousActiveLabel.classList.remove("active");
