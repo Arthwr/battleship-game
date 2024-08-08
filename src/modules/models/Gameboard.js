@@ -1,8 +1,10 @@
-export default class Gameboard {
-  static ROW = 10;
-  static COLUMN = 10;
+import { GameBoardConfig } from "../data/constants";
 
-  constructor(row = Gameboard.ROW, column = Gameboard.COLUMN) {
+export default class Gameboard {
+  constructor(
+    row = GameBoardConfig.MAX_ROWS,
+    column = GameBoardConfig.MAX_COLUMNS
+  ) {
     this.grid = Array.from({ length: row }, () =>
       new Array(column).fill(null).map(() => ({ ship: null, attacked: false }))
     );
@@ -31,13 +33,14 @@ export default class Gameboard {
     const [x, y] = coordinates;
     const targetCell = this.grid[x - 1][y - 1];
 
-    if (targetCell.attacked || targetCell === 1) return "already_attacked";
+    if (targetCell.attacked) return "already_attacked";
+
+    targetCell.attacked = true;
+
     if (targetCell.ship === null) {
-      this.grid[x - 1][y - 1] = 1;
       return "missed";
     } else {
       targetCell.ship.hit();
-      targetCell.attacked = true;
       return "hit";
     }
   }
