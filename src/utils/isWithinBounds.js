@@ -1,5 +1,7 @@
+import { GameBoardConfig } from "../modules/data/constants";
+
 export default function isWithinBounds(row, col, direction, length) {
-  const [maxRow, maxCol] = [10, 10];
+  const [maxRow, maxCol] = [GameBoardConfig.MAX_ROWS, GameBoardConfig.MAX_COLUMNS];
   length = Number(length);
   row = Number(row);
   col = Number(col);
