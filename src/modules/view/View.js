@@ -135,6 +135,7 @@ export default class View {
     return false;
   }
 
+  // prettier-ignore
   toggleShipDirection(event) {
     const ship = event.currentTarget;
     const gameObject = ship.querySelector(".game-object");
@@ -146,13 +147,7 @@ export default class View {
     const isHorizontal = currentDirection === "horizontal";
 
     const newDirection = isHorizontal ? "vertical" : "horizontal";
-
-    const isWithinGameBounds = isWithinBounds(
-      gameCell.dataset.row,
-      gameCell.dataset.col,
-      newDirection,
-      length
-    );
+    const isWithinGameBounds = isWithinBounds(gameCell.dataset.row, gameCell.dataset.col, newDirection, length);
 
     if (isWithinGameBounds) {
       ship.dataset.direction = newDirection;
