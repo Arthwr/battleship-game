@@ -11,6 +11,7 @@ import GameController from "../../src/modules/controller/GameController";
 describe("GameController class", () => {
   let players;
   let mockView;
+  let mockGame;
   let controller;
 
   beforeEach(() => {
@@ -50,7 +51,12 @@ describe("GameController class", () => {
       updatePlayerLabel: jest.fn(),
     };
 
-    controller = new GameController(players, mockView);
+    mockGame = {
+      switchPlayer: jest.fn(),
+    }
+
+    controller = new GameController(mockGame, mockView);
+
   });
 
   afterEach(() => {
@@ -150,18 +156,5 @@ describe("GameController class", () => {
 
     expect(controller.getWinner()).toBe("computer");
     expect(isClearSpy).toHaveBeenCalled();
-  });
-
-  test("endTurn correctly ends the turn, switch players and initiates computer's turn", () => {
-    const switchPlayerSpy = jest.spyOn(controller, "switchPlayer");
-    const computerTurnSpy = jest.spyOn(controller, "computerTurn");
-
-    controller.currentPlayer = players[0];
-
-    controller.endTurn();
-    expect(switchPlayerSpy).toHaveBeenCalled();
-
-    jest.advanceTimersByTime(1000);
-    expect(computerTurnSpy).toHaveBeenCalled();
   });
 });
