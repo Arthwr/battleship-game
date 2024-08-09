@@ -13,43 +13,43 @@ export default function createShipSetupElement() {
     <div class="ship-container">
         <div>Prowlers:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="prowler-1" data-length="1" data-direction="horizontal">
+            <div class="ship-wrapper prowler" id="prowler-1" data-type="prowler" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="prowler-2" data-length="1" data-direction="horizontal">
+            <div class="ship-wrapper prowler" id="prowler-2" data-type="prowler" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="prowler-3" data-length="1" data-direction="horizontal">
+            <div class="ship-wrapper prowler" id="prowler-3" data-type="prowler" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="prowler-4" data-length="1" data-direction="horizontal">
+            <div class="ship-wrapper prowler" id="prowler-4" data-type="prowler" data-length="1" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>
         <div>Sea Serpent:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="serpent-1" data-length="2" data-direction="horizontal">
+            <div class="ship-wrapper serpent" id="serpent-1" data-type="serpent" data-length="2" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="serpent-2" data-length="2" data-direction="horizontal">
+            <div class="ship-wrapper serpent" id="serpent-2" data-type="serpent" data-length="2" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="serpent-3" data-length="2" data-direction="horizontal">
+            <div class="ship-wrapper serpent" id="serpent-3" data-type="serpent" data-length="2" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>
         <div>Tempest Titan:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="titan-1" data-length="3" data-direction="horizontal">
+            <div class="ship-wrapper titan" id="titan-1" data-type="titan" data-length="3" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
-            <div class="ship-wrapper" id="titan-2" data-length="3" data-direction="horizontal">
+            <div class="ship-wrapper titan" id="titan-2" data-type="titan" data-length="3" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>
         <div>Leaviathan Lord:</div>
         <div class="ship-bay">
-            <div class="ship-wrapper" id="lord-1" data-length="4" data-direction="horizontal">
+            <div class="ship-wrapper lord" id="lord-1" data-type="lord" data-length="4" data-direction="horizontal">
               <div class="game-object"></div>
             </div>
         </div>
@@ -71,7 +71,7 @@ export default function createShipSetupElement() {
         }
       }
 
-      ship.style.width = `${length * 2}rem`;
+      ship.style.width = `${(length * 32) + (length - 1 * 1)}px`;
     });
   }, 0);
 
