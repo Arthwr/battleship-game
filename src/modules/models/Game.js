@@ -32,7 +32,7 @@ export default class Game {
 
   storePlayerShips(player, data) {
     data.forEach((ship) => {
-      player.gameBoard.place(new Ship(ship.length), ship.coordinates);
+      player.gameBoard.place(new Ship(ship.length, ship.name), ship.coordinates);
     });
   }
 

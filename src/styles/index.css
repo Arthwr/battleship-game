@@ -19,10 +19,6 @@
   color: var(--text);
 }
 /* Default styles reset */
-* {
-  box-sizing: border-box;
-}
-
 h1 {
   margin: 0;
   padding: 0;
@@ -264,9 +260,9 @@ form > button:active {
 }
 
 .game-object > .ship-cell {
+  flex: 1;
   height: 2rem;
   width: 2rem;
-  background-color: var(--ship);
 }
 
 .game-object > .ship-cell:not(:last-child) {
@@ -328,9 +324,25 @@ form > button:active {
   }
 }
 
-/* In-game Ship */
-.game-cell.ship-cell {
-  background-color: var(--ship);
+/* Ships */
+.game-cell .lord,
+.game-cell.lord {
+  background-color: #d7e8ba;
+}
+
+.game-cell .titan,
+.game-cell.titan {
+  background-color: #a7c0dd;
+}
+
+.game-cell .serpent,
+.game-cell.serpent {
+  background-color: #b9dcdf;
+}
+
+.game-cell .prowler,
+.game-cell.prowler {
+  background-color: #ffdcad;
 }
 
 /* Attack status */
@@ -362,9 +374,4 @@ form > button:active {
 
 .result > b {
   color: var(--highlight);
-}
-
-/* Testing purposes */
-.game-cell.ship {
-  background-color: var(--ship);
 }

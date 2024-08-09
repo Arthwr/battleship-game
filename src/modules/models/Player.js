@@ -44,7 +44,7 @@ export class ComputerPlayer extends Player {
           const coordinates = calculateShipCoordinates(ship.length, direction, row, col);
 
           if (isWithinBounds(row, col, direction, ship.length) && isValidPlacement(coordinates, this.gameBoardHistory)) {
-            this.gameBoard.place(new Ship(ship.length), coordinates);
+            this.gameBoard.place(new Ship(ship.length, ship.name), coordinates);
             coordinates.forEach(([x, y])=> {
               this.gameBoardHistory.add(`${x},${y}`);
             })

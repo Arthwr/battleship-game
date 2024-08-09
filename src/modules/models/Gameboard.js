@@ -21,10 +21,10 @@ export default class Gameboard {
     // Check if coordinates are single pair
     if (!Array.isArray(coordinates[0])) {
       const [x, y] = coordinates;
-      this.grid[x - 1][y - 1] = { ship, attacked: false };
+      this.grid[x - 1][y - 1] = { ship, attacked: false, name: ship.name };
     } else {
       coordinates.forEach(([x, y]) => {
-        this.grid[x - 1][y - 1] = { ship, attacked: false };
+        this.grid[x - 1][y - 1] = { ship, attacked: false, name: ship.name };
       });
     }
   }

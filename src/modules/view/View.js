@@ -73,6 +73,7 @@ export default class View {
     const shipWrappers = grid.querySelectorAll(".ship-wrapper");
     const shipData = Array.from(shipWrappers).map((element) => {
       const parentCell = element.closest(".game-cell");
+      const name = element.dataset.type;
       const direction = element.dataset.direction;
       const length = Number(element.dataset.length);
       const startRow = Number(parentCell.dataset.row);
@@ -82,6 +83,7 @@ export default class View {
       return {
         length,
         coordinates,
+        name
       };
     });
 
@@ -228,7 +230,6 @@ export default class View {
   }
 
   #displayPlayerShips(player) {
-    console.log(player);
     const gameBoard = player.grid();
     if (gameBoard !== null) {
       gameBoard.forEach((row, rowIndex) => {
@@ -238,8 +239,10 @@ export default class View {
             const colToRender = colIndex + 1;
             const cellSelector = `.row[data-row="${rowToRender}"] .game-cell[data-col="${colToRender}"]`;
             const gameBoard = document.getElementById(player.name);
-            const cell = gameBoard.querySelector(cellSelector);
-            cell.classList.add("ship");
+            const cellElement = gameBoard.querySelector(cellSelector);
+            console.log(cell.ship.name)
+            cellElement.classList.add("ship");
+            cellElement.classList.add(`${cell.ship.name}`);
           }
         });
       });
