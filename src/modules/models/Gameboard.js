@@ -29,6 +29,14 @@ export default class Gameboard {
     }
   }
 
+  clear() {
+    return this.grid.forEach((row) => {
+      row.forEach((cell, index, rowArr) => {
+        rowArr[index] = { ship: null, attacked: false };
+      });
+    });
+  }
+
   receiveAttack(coordinates) {
     const [x, y] = coordinates;
     const targetCell = this.grid[x - 1][y - 1];

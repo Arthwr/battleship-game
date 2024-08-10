@@ -240,7 +240,6 @@ export default class View {
             const cellSelector = `.row[data-row="${rowToRender}"] .game-cell[data-col="${colToRender}"]`;
             const gameBoard = document.getElementById(player.name);
             const cellElement = gameBoard.querySelector(cellSelector);
-            console.log(cell.ship.name)
             cellElement.classList.add("ship");
             cellElement.classList.add(`${cell.ship.name}`);
           }
