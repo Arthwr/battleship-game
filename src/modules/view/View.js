@@ -90,10 +90,10 @@ export default class View {
   }
 
   // Update methods
-  updateGameCell(playerName, coordinates, status) {
+  updateGameCell(playerId, coordinates, status) {
     const [row, col] = coordinates;
     const cellSelector = `.row[data-row="${row}"] .game-cell[data-col="${col}"]`;
-    const gameBoard = document.getElementById(playerName);
+    const gameBoard = document.querySelector(`.grid-wrap > div[data-id="${playerId}"]`);
     const cell = gameBoard.querySelector(cellSelector);
 
     switch (status) {
@@ -114,7 +114,7 @@ export default class View {
       previousActiveLabel.classList.remove("active");
     }
 
-    const currentPlayerLabel = document.querySelector(`.player-label[data-player=${currentPlayer.name}]`);
+    const currentPlayerLabel = document.querySelector(`.player-label[data-id="${currentPlayer.id}"]`);
     if (currentPlayerLabel) {
       currentPlayerLabel.classList.add("active");
     }
@@ -230,7 +230,7 @@ export default class View {
             const rowToRender = rowIndex + 1;
             const colToRender = colIndex + 1;
             const cellSelector = `.row[data-row="${rowToRender}"] .game-cell[data-col="${colToRender}"]`;
-            const gameBoard = document.querySelector(`[data-id="${player.id}"]`);
+            const gameBoard = document.querySelector(`.grid-wrap > [data-id="${player.id}"]`);
             const cellElement = gameBoard.querySelector(cellSelector);
             cellElement.classList.add("ship");
             cellElement.classList.add(`${cell.ship.name}`);

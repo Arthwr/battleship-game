@@ -19,8 +19,8 @@ export default function createGrid(playersData) {
 
     let playerGridHTML = `
       <div class="gameboard">
-      <div class="player-label" data-player="${player.name}">
-      ${capitalizeString(player.name)}
+      <div class="player-label" data-player="${player.name}" data-id="${player.id}">
+      ${capitalizeString(player.name)} (${player.id})
       </div>
         <div class="label-row">
           <div class="label-cell"></div>

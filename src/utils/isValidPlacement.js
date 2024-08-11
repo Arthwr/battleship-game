@@ -40,5 +40,5 @@ function getBufferZone(positions) {
 
 // prettier-ignore
 function isCellWithinBounds(x, y) {
-    return x >= 0 && x < GameBoardConfig.MAX_ROWS && y >= 0 && y < GameBoardConfig.MAX_COLUMNS;
+    return x >= 1 && x <= GameBoardConfig.MAX_ROWS && y >= 1 && y <= GameBoardConfig.MAX_COLUMNS;
 }

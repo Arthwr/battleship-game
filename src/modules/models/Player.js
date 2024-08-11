@@ -63,8 +63,8 @@ export class ComputerPlayer extends Player {
 
     for (let attempts = 0; attempts < maxAttemptsPerShip; attempts++) {
       const direction = Math.random() < 0.5 ? "horizontal" : "vertical";
-      const row = Math.floor(Math.random() * (rowCount - 1)) + 1;
-      const col = Math.floor(Math.random() * (columnCount - 1)) + 1;
+      const row = Math.floor(Math.random() * rowCount) + 1;
+      const col = Math.floor(Math.random() * columnCount) + 1;
       const coordinates = calculateShipCoordinates(ship.length, direction, row, col);
 
       if (isWithinBounds(row, col, direction, ship.length) && isValidPlacement(coordinates, this.gameBoardHistory)) {
@@ -93,8 +93,8 @@ export class ComputerPlayer extends Player {
     const { rowCount, columnCount } = opponentGameBoard.getDimensions();
 
     do {
-      row = Math.floor(Math.random() * (rowCount - 1)) + 1;
-      col = Math.floor(Math.random() * (columnCount - 1)) + 1;
+      row = Math.floor(Math.random() * rowCount) + 1;
+      col = Math.floor(Math.random() * columnCount) + 1;
     } while (this.attackHistory.has(`${row}, ${col}`));
 
     this.attackHistory.add(`${row}, ${col}`);

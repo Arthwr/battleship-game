@@ -17,9 +17,7 @@ export default class GameController {
   }
 
   setupPlayerFleet(currentPlayer) {
-    this.view.showShipSetup(currentPlayer, () =>
-      this.handleShipConfirmation(currentPlayer)
-    );
+    this.view.showShipSetup(currentPlayer, () => this.handleShipConfirmation(currentPlayer));
   }
 
   setupNewGame() {
@@ -27,6 +25,10 @@ export default class GameController {
     const currentPlayer = this.game.getCurrentPlayer();
     this.view.showGameView(players, currentPlayer);
     this.#attachGameBoardListeners();
+
+    if (this.isComputerOnlyGame()) {
+      this.game.performComputerTurn(this.handleMove);
+    }
   }
 
   handleGridClick(event) {
@@ -86,8 +88,8 @@ export default class GameController {
     const moveResult = this.game.processMove(coordinates);
     if (!moveResult) return;
 
-    const { opponentName, status } = moveResult;
-    this.view.updateGameCell(opponentName, coordinates, status);
+    const { opponentId, status } = moveResult;
+    this.view.updateGameCell(opponentId, coordinates, status);
 
     const turnResult = this.game.checkWinner(status);
     if (turnResult) {
@@ -96,6 +98,11 @@ export default class GameController {
 
     this.game.endTurn(status, this.handleMove);
     this.#handlePlayerLabelUpdate();
+  }
+
+  isComputerOnlyGame() {
+    const humanPlayers = this.game.getHumanPlayers();
+    return humanPlayers.length === 0;
   }
 
   #handleGameEnd(winner) {

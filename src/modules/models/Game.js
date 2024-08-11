@@ -40,7 +40,7 @@ export default class Game {
     const opponent = this.#getNextPlayer();
     const attackStatus = opponent.gameBoard.receiveAttack(coordinates);
     if (attackStatus !== "already_attacked") {
-      return { opponentName: opponent.name, status: attackStatus };
+      return { opponentId: opponent.id, status: attackStatus };
     }
 
     return null;
@@ -58,12 +58,12 @@ export default class Game {
 
     if (this.#currentPlayer.name === "computer") {
       setTimeout(() => {
-        this.#performComputerTurn(callback);
+        this.performComputerTurn(callback);
       }, 1000);
     }
   }
 
-  #performComputerTurn(callback) {
+  performComputerTurn(callback) {
     const opponentGameBoard = this.#getNextPlayer().gameBoard;
     const computerMove =
       this.#currentPlayer.chooseRandomMove(opponentGameBoard);
