@@ -32,55 +32,57 @@ export class ComputerPlayer extends Player {
   populateGameBoard() {
     const maxAttemptsPerShip = 50;
     const maxResets = 10;
-    const { rowCount, columnCount } = this.gameBoard.getDimensions();
 
     for (let resetCount = 0; resetCount < maxResets; resetCount++) {
-      this.gameBoardHistory.clear();
-      this.gameBoard.clear();
-
-      console.log("Took another full reset");
-      let success = true;
-      for (const ship of SHIPS) {
-        for (let i = 0; i < ship.count; i++) {
-          let placed = false;
-          let attempts = 0;
-
-          while (!placed && attempts < maxAttemptsPerShip) {
-            const direction = Math.random() < 0.5 ? "horizontal" : "vertical";
-            const row = Math.floor(Math.random() * (rowCount - 1)) + 1;
-            const col = Math.floor(Math.random() * (columnCount - 1)) + 1;
-            const coordinates = calculateShipCoordinates(
-              ship.length,
-              direction,
-              row,
-              col
-            );
-            if (
-              isWithinBounds(row, col, direction, ship.length) &&
-              isValidPlacement(coordinates, this.gameBoardHistory)
-            ) {
-              this.gameBoard.place(
-                new Ship(ship.length, ship.name),
-                coordinates
-              );
-              coordinates.forEach(([x, y]) => {
-                this.gameBoardHistory.add(`${x},${y}`);
-              });
-              placed = true;
-            }
-            attempts++;
-          }
-
-          if (!placed) {
-            success = false;
-            break;
-          }
-        }
-        if (!success) break;
+      if (this.attemptToPlaceAllShips(maxAttemptsPerShip)) {
+        return;
       }
-      if (success) return;
+      console.log("Placing computer ships: took another full reset");
+      this.resetGameBoard();
     }
     throw new Error("Failed to place all ships after multiple resets");
+  }
+
+  attemptToPlaceAllShips(maxAttemptsPerShip) {
+    for (const ship of SHIPS) {
+      for (let i = 0; i < ship.count; i++) {
+        if (!this.placeSingleShip(ship, maxAttemptsPerShip)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  placeSingleShip(ship, maxAttemptsPerShip) {
+    const { rowCount, columnCount } = this.gameBoard.getDimensions();
+
+    for (let attempts = 0; attempts < maxAttemptsPerShip; attempts++) {
+      const direction = Math.random() < 0.5 ? "horizontal" : "vertical";
+      const row = Math.floor(Math.random() * (rowCount - 1)) + 1;
+      const col = Math.floor(Math.random() * (columnCount - 1)) + 1;
+      const coordinates = calculateShipCoordinates(ship.length, direction, row, col);
+
+      if (isWithinBounds(row, col, direction, ship.length) && isValidPlacement(coordinates, this.gameBoardHistory)) {
+        this.placeShipOnBoard(ship, coordinates);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  placeShipOnBoard(ship, coordinates) {
+    this.gameBoard.place(new Ship(ship.length, ship.name), coordinates);
+    coordinates.forEach(([x, y]) => {
+      this.gameBoardHistory.add(`${x},${y}`);
+    });
+  }
+
+  resetGameBoard() {
+    this.gameBoardHistory.clear();
+    this.gameBoard.clear();
   }
 
   chooseRandomMove(opponentGameBoard) {
