@@ -67,7 +67,6 @@ export default class View {
   }
 
   // Read data
-  // prettier-ignore
   getShipPlacementData() {
     const grid = document.querySelector(".grid");
     const shipWrappers = grid.querySelectorAll(".ship-wrapper");
@@ -83,7 +82,7 @@ export default class View {
       return {
         length,
         coordinates,
-        name
+        name,
       };
     });
 
@@ -115,9 +114,7 @@ export default class View {
       previousActiveLabel.classList.remove("active");
     }
 
-    const currentPlayerLabel = document.querySelector(
-      `.player-label[data-player=${currentPlayer.name}]`
-    );
+    const currentPlayerLabel = document.querySelector(`.player-label[data-player=${currentPlayer.name}]`);
     if (currentPlayerLabel) {
       currentPlayerLabel.classList.add("active");
     }
@@ -137,7 +134,6 @@ export default class View {
     return false;
   }
 
-  // prettier-ignore
   toggleShipDirection(event) {
     const ship = event.currentTarget;
     const gameObject = ship.querySelector(".game-object");
@@ -168,17 +164,13 @@ export default class View {
 
   toggleFormNameLabel(event) {
     const isComputer = event.target.value === "computer";
-    const nameInput = event.target
-      .closest(".menu-col")
-      .querySelector('input[type="text"]');
+    const nameInput = event.target.closest(".menu-col").querySelector('input[type="text"]');
     nameInput.disabled = isComputer;
     this.toggleNameLabel(event);
   }
 
   toggleNameLabel(event) {
-    const labelInput = event.target
-      .closest(".menu-col")
-      .querySelector('label[for$="-name"');
+    const labelInput = event.target.closest(".menu-col").querySelector('label[for$="-name"');
     labelInput.classList.toggle("disabled-label");
   }
 
@@ -238,7 +230,7 @@ export default class View {
             const rowToRender = rowIndex + 1;
             const colToRender = colIndex + 1;
             const cellSelector = `.row[data-row="${rowToRender}"] .game-cell[data-col="${colToRender}"]`;
-            const gameBoard = document.getElementById(player.name);
+            const gameBoard = document.querySelector(`[data-id="${player.id}"]`);
             const cellElement = gameBoard.querySelector(cellSelector);
             cellElement.classList.add("ship");
             cellElement.classList.add(`${cell.ship.name}`);

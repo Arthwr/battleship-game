@@ -5,9 +5,12 @@ import isWithinBounds from "../../utils/isWithinBounds";
 import isValidPlacement from "../../utils/isValidPlacement";
 
 export class Player {
-  constructor(gameBoard = null, name) {
+  static idCounter = 0;
+
+  constructor(gameBoard = null, name, id = null) {
     this.gameBoard = gameBoard;
     this.name = name;
+    this.id = id || `${++Player.idCounter}`;
   }
 
   grid() {
@@ -16,14 +19,14 @@ export class Player {
 }
 
 export class HumanPlayer extends Player {
-  constructor(gameBoard = null, name) {
-    super(gameBoard, name);
+  constructor(gameBoard = null, name, id) {
+    super(gameBoard, name, id);
   }
 }
 
 export class ComputerPlayer extends Player {
-  constructor(gameBoard = null) {
-    super(gameBoard, "computer");
+  constructor(gameBoard = null, id) {
+    super(gameBoard, "computer", id);
     this.attackHistory = new Set();
     this.gameBoardHistory = new Set();
     this.populateGameBoard();

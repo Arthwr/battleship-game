@@ -28,7 +28,7 @@ export default function createGrid(playersData) {
         </div>
         <div class="grid-wrap">
           <div class="label-column">${yAxisLabelHTML}</div>
-          <div id="${player.name}" class="grid">
+          <div id="${player.name}" data-id="${player.id}" class="grid">
     `;
 
     for (let row = 1; row <= rowCount; row++) {
