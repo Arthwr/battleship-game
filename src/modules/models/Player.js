@@ -37,7 +37,7 @@ export class ComputerPlayer extends Player {
       if (this.attemptToPlaceAllShips(maxAttemptsPerShip)) {
         return;
       }
-      console.log("Placing computer ships: took another full reset");
+      console.log("Taking another reset attempt: ", resetCount);
       this.resetGameBoard();
     }
     throw new Error("Failed to place all ships after multiple resets");
