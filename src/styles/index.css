@@ -196,6 +196,19 @@ form > button:active {
   position: relative;
 }
 
+#reveal-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  align-self: center;
+}
+
+#reveal-check input {
+  width: 1rem;
+  height: 1rem;
+}
+
 /* Ship setup Menu */
 #ship-menu {
   display: flex;
@@ -343,6 +356,10 @@ form > button:active {
 .game-cell .prowler,
 .game-cell.prowler {
   background-color: #ffdcad;
+}
+
+.gameboard .game-cell.hide:not(.hit) {
+  background-color: white;
 }
 
 /* Attack status */

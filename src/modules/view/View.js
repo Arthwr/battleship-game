@@ -5,6 +5,7 @@ import createShipSetupElement from "../../components/createShipSetupElement";
 import DragAndDropManager from "./DragAndDropManager";
 import isWithinBounds from "../../utils/isWithinBounds";
 import calculateShipCoordinates from "../../utils/calculateShipCoordinates";
+import createRevealCheckBox from "../../components/createRevealCheckBox";
 
 export default class View {
   constructor() {
@@ -48,6 +49,13 @@ export default class View {
     this.#displayGameGrid(players);
     players.forEach((player) => this.#displayPlayerShips(player));
     this.updatePlayerLabel(currentPlayer);
+    this.showRevealCheckBox();
+  }
+
+  showRevealCheckBox() {
+    const revealCheckBox = createRevealCheckBox();
+    this.gameWrapper.prepend(revealCheckBox);
+    this.#setupCheckBoxListener();
   }
 
   showGameResult(winner) {
@@ -174,9 +182,31 @@ export default class View {
     labelInput.classList.toggle("disabled-label");
   }
 
+  handleCheckBox(event) {
+    const checkBox = event.target;
+    const gameGridList = document.querySelectorAll(".grid");
+
+    gameGridList.forEach((grid) => {
+      const gameCells = grid.querySelectorAll(".game-cell");
+
+      gameCells.forEach((gameCell) => {
+        if (checkBox.checked) {
+          gameCell.classList.remove("hide");
+        } else {
+          gameCell.classList.add("hide");
+        }
+      });
+    });
+  }
+
   #clearMenu() {
     const menu = document.getElementById("ship-menu");
     if (menu) menu.remove();
+  }
+
+  #setupCheckBoxListener() {
+    const checkbox = document.getElementById("reveal");
+    checkbox.addEventListener("change", this.handleCheckBox);
   }
 
   #setupShipConfirmationListener(callback) {

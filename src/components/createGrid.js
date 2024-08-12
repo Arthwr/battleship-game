@@ -34,7 +34,7 @@ export default function createGrid(playersData) {
     for (let row = 1; row <= rowCount; row++) {
       let rowHTML = `<div class="row" data-row="${row}">`;
       for (let col = 1; col <= columnCount; col++) {
-        rowHTML += `<div class="game-cell" data-row="${row}" data-col="${col}"></div>`;
+        rowHTML += `<div class="game-cell hide" data-row="${row}" data-col="${col}"></div>`;
       }
       rowHTML += "</div>";
       playerGridHTML += rowHTML;
