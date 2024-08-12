@@ -40,4 +40,4 @@ In terms of architecture, I was also trying to mimic the MVC pattern where appli
 - Various dependencies for Babel, ESLint, Jest, Webpack, and related plugins for development and testing.
 
 ### Live 
-- The project is hosted on GitHub at `https://github.com/Arthwr/battleship-game
+- The project is hosted on GitHub at [https://github.com/Arthwr/battleship-game](https://arthwr.github.io/battleship-game/)
