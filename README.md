@@ -1,8 +1,8 @@
 ### Battleship Game
 
 ### Purpose:
-The project exists for my personal learning. Mostly trying to better understand TTD, Jest, and how to structure project.
-In terms of architecture i was also trying to mimic MVC where it was applicable.
+The project is for my personal learning, mainly to better understand TDD, Jest, and how to structure a project. 
+In terms of architecture, I was also trying to mimic the MVC pattern where applicable.
 
 ### Main Technologies:
 - **Languages:** JavaScript
