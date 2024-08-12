@@ -71,7 +71,7 @@ describe("Gameboard Model", () => {
       board.receiveAttack([4, 4]);
 
       expect(hitSpy).not.toHaveBeenCalled();
-      expect(board.grid[3][3]).toBe(1);
+      expect(board.grid[3][3]).toMatchObject({ attacked: true, ship: null });
     });
 
     test("return already_attacked msg if target cell was a hit miss before", () => {
