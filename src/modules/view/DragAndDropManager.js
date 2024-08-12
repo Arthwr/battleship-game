@@ -8,7 +8,6 @@ export default class DragAndDropManager {
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
-  // prettier-ignore
   handleDragStart(event) {
     event.stopPropagation();
 
@@ -33,7 +32,6 @@ export default class DragAndDropManager {
     this.toggleElementVisibility(ship);
   }
 
-  // prettier-ignore
   handleDrop(event) {
     event.preventDefault();
     

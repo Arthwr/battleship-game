@@ -54,7 +54,7 @@ export default function createShipSetupElement() {
             </div>
         </div>
     </div>  
-    <button class="confirm-ships-btn">Confirm ship placement</button>
+    <button class="confirm-ships-btn">Confirm placement</button>
     <span class="error-msg"></span>
   `;
 
